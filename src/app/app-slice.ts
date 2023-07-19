@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type StatusActionType = PayloadAction<{ status: RequestStatusType }>;
-type ErrorActionType = PayloadAction<{ error: null | string }>;
-type InitializedActionType = PayloadAction<{ isInitialized: boolean }>;
+type AppStatusActionType = PayloadAction<{ status: RequestStatusType }>;
+type AppErrorActionType = PayloadAction<{ error: null | string }>;
+type AppInitializedActionType = PayloadAction<{ isInitialized: boolean }>;
 export enum RequestStatusType {
     IDLE = 'idle',
     LOADING = 'loading',
@@ -18,13 +18,13 @@ const slice = createSlice({
         isInitialized: false,
     },
     reducers: {
-        setAppStatus: (state, action: StatusActionType) => {
+        setAppStatus: (state, action: AppStatusActionType) => {
             state.status = action.payload.status;
         },
-        setAppError: (state, action: ErrorActionType) => {
+        setAppError: (state, action: AppErrorActionType) => {
             state.error = action.payload.error;
         },
-        setAppInitialized: (state, action: InitializedActionType) => {
+        setAppInitialized: (state, action: AppInitializedActionType) => {
             state.isInitialized = action.payload.isInitialized;
         },
     },
