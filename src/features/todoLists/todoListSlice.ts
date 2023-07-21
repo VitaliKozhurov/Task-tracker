@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TodoListServerType } from 'api/api';
-import { RequestStatusType } from 'app/app-slice';
+import { RequestStatusType } from 'app/appSlice';
 
 export enum FilterValueType {
     ALL = 'all',
@@ -22,7 +22,7 @@ const slice = createSlice({
         removeTodoList: (state, action: RemoveTodoListType) => {
             const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
             if (index !== -1) {
-                state = state.slice(index, 1);
+                state.slice(index, 1);
             }
         },
         addTodoList: (state, action: AddTodoListType) => {
@@ -57,6 +57,7 @@ export const todoListsReducer = slice.reducer;
 export const todoListsActions = slice.actions;
 
 // types
+export type TodoListsInitialStateType = ReturnType<typeof slice.getInitialState>;
 type TodoListsType = TodoListServerType & { filter: FilterValueType } & { entityStatus: RequestStatusType };
 type TodoListsActionType = PayloadAction<{ todoLists: TodoListServerType[] }>;
 type RemoveTodoListType = PayloadAction<{ todoListID: string }>;

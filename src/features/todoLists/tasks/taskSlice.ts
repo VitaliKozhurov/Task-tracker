@@ -45,15 +45,11 @@ const slice = createSlice({
 export const tasksReducer = slice.reducer;
 export const tasksActions = slice.actions;
 
+// types
+export type TasksInitialStateType = ReturnType<typeof slice.getInitialState>;
 type TasksType = {
     [key: string]: TaskType[];
 };
-
-type AddTaskActionType = PayloadAction<{ task: TaskType }>;
-type RemoveTaskActionType = PayloadAction<{ todoListID: string; taskID: string }>;
-type SetTasksActionType = PayloadAction<{ todoListID: string; tasks: TaskType[] }>;
-type UpdateTaskActionType = PayloadAction<{ todoListID: string; taskID: string; updateModel: UpdateModelType }>;
-
 type UpdateModelType = {
     title?: string;
     description?: string;
@@ -62,3 +58,7 @@ type UpdateModelType = {
     startDate?: string;
     deadline?: string;
 };
+type AddTaskActionType = PayloadAction<{ task: TaskType }>;
+type RemoveTaskActionType = PayloadAction<{ todoListID: string; taskID: string }>;
+type SetTasksActionType = PayloadAction<{ todoListID: string; tasks: TaskType[] }>;
+type UpdateTaskActionType = PayloadAction<{ todoListID: string; taskID: string; updateModel: UpdateModelType }>;

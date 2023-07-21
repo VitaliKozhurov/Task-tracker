@@ -1,10 +1,9 @@
 import { AnyAction, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { authReducer } from 'features/login/auth-slice';
-import { appReducer } from 'app/app-slice';
+import { authReducer } from 'features/login/authSlice';
+import { appReducer } from 'app/appSlice';
 import { todoListsReducer } from 'features/todoLists/todoListSlice';
 import { tasksReducer } from 'features/todoLists/tasks/taskSlice';
 
-// configure store под капотом комбайнит редьюсеры
 export const store = configureStore({
     reducer: {
         app: appReducer,
