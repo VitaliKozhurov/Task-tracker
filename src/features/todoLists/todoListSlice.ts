@@ -22,7 +22,7 @@ const slice = createSlice({
         removeTodoList: (state, action: RemoveTodoListType) => {
             const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
             if (index !== -1) {
-                state.slice(index, 1);
+                state.splice(index, 1);
             }
         },
         addTodoList: (state, action: AddTodoListType) => {
