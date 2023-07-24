@@ -136,7 +136,7 @@ type AuthResponseType = {
     email: string;
     login: string;
 };
-type LoginRequestType = {
+export type LoginRequestType = {
     email: string;
     password: string;
     rememberMe?: boolean;
