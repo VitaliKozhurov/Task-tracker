@@ -1,0 +1,15 @@
+.body {
+  display: flex;
+  flex-direction: column;
+
+  .formTitle {
+    font-size: 32px;
+    color: #fff;
+    margin: 0;
+  }
+
+  .formBody {
+    display: flex;
+    flex-direction: column;
+  }
+}
