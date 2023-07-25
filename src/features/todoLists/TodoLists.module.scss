@@ -1,5 +1,10 @@
 .todoListsBody {
   display: flex;
+  justify-content: center;
+  padding: 50px 0;
+  background-image: linear-gradient(to right top, #845EC2, #009EFA, #00D2FC, #4FFBDF);
+
+
   .addTodoItem{
     flex: 0 1 250px;
   }
