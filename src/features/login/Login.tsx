@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'common/hooks/hooks';
 import { Navigate } from 'react-router-dom';
-import { loginTC } from 'features/login/authSlice';
+import { authThunks } from 'features/login/authSlice';
 import { getAuthLoggedStatusSelector } from 'features/login/auth.selectors';
 import s from 'features/login/Login.module.scss';
 
@@ -39,7 +39,7 @@ export const Login = () => {
         initialValues,
         validationSchema,
         onSubmit: (values, formikHelpers) => {
-            dispatch(loginTC(values));
+            dispatch(authThunks.login(values));
         },
     });
 

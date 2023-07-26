@@ -1,15 +1,25 @@
-import { authActions, AuthInitialStateType, authReducer } from 'features/login/authSlice';
+import { AuthInitialStateType, authReducer, login, logout } from 'features/login/authSlice';
 
 describe('Auth reducer tests', () => {
-    let authState: AuthInitialStateType;
-    beforeEach(() => {
-        authState = {
+    it('Should change logged status on true', () => {
+        let authState: AuthInitialStateType = {
             isLoggedIn: false,
         };
+        const action = login.fulfilled({ isLoggedIn: true }, 'requestId', {
+            email: ' ',
+            password: ' ',
+            rememberMe: true,
+        });
+        const newAuthState = authReducer(authState, action);
+        expect(newAuthState.isLoggedIn).toBe(true);
     });
 
-    it('Should change logged status', () => {
-        const newAuthState = authReducer(authState, authActions.setIsLoggedIn({ isLoggedIn: true }));
-        expect(newAuthState.isLoggedIn).toBe(true);
+    it('Should change logged status on false', () => {
+        let authState: AuthInitialStateType = {
+            isLoggedIn: true,
+        };
+        const action = logout.fulfilled({ isLoggedIn: false }, 'requestId');
+        const newAuthState = authReducer(authState, action);
+        expect(newAuthState.isLoggedIn).toBe(false);
     });
 });

@@ -1,6 +1,7 @@
 import { tasksActions, TasksInitialStateType, tasksReducer } from 'features/todoLists/tasks/taskSlice';
-import { TaskPriorities, TaskStatuses, TodoListServerType } from 'api/api';
 import { todoListsActions } from 'features/todoLists/todoListSlice';
+import { TaskPriorities, TaskStatuses } from 'common/enums';
+import { TodoListServerType } from 'features/todoLists/todoListsApi';
 
 describe('Tasks reducer tests', () => {
     let initialStateTasks: TasksInitialStateType;

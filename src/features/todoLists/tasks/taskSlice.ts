@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TaskPriorities, TaskStatuses, TaskType } from 'api/api';
 import { todoListsActions } from 'features/todoLists/todoListSlice';
+import { TaskType, UpdateTaskModelType } from 'features/todoLists/tasks/tasksApi';
 
 const slice = createSlice({
     name: 'tasks',
@@ -50,14 +50,7 @@ export type TasksInitialStateType = ReturnType<typeof slice.getInitialState>;
 type TasksType = {
     [key: string]: TaskType[];
 };
-type UpdateModelType = {
-    title?: string;
-    description?: string;
-    status?: TaskStatuses;
-    priority?: TaskPriorities;
-    startDate?: string;
-    deadline?: string;
-};
+type UpdateModelType = Partial<UpdateTaskModelType>;
 type AddTaskActionType = PayloadAction<{ task: TaskType }>;
 type RemoveTaskActionType = PayloadAction<{ todoListID: string; taskID: string }>;
 type SetTasksActionType = PayloadAction<{ todoListID: string; tasks: TaskType[] }>;

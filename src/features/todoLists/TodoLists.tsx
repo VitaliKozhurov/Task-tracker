@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppSelector } from 'app/hooks';
+import { useAppSelector } from 'common/hooks/hooks';
 import { getTodoListsSelector } from 'features/todoLists/todoLists.selectors';
 import { AddItemForm } from 'components/AddItemForm/AddItemForm';
 import s from './TodoLists.module.scss';

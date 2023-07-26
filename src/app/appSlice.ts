@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-export enum RequestStatusType {
-    IDLE = 'idle',
-    LOADING = 'loading',
-    SUCCEEDED = 'succeeded',
-    FAILED = 'failed',
-}
+
+export const EntityStatus = {
+    IDLE: 'idle',
+    LOADING: 'loading',
+    SUCCEEDED: 'succeeded',
+    FAILED: 'failed',
+} as const;
 
 const slice = createSlice({
     name: 'app',
     initialState: {
-        status: RequestStatusType.IDLE,
+        status: EntityStatus.IDLE as EntityStatusType,
         error: null as null | string,
         isInitialized: false,
     },
@@ -28,8 +29,8 @@ const slice = createSlice({
 
 export const appReducer = slice.reducer;
 export const appActions = slice.actions;
-
+export type EntityStatusType = (typeof EntityStatus)[keyof typeof EntityStatus];
 export type AppInitialStateType = ReturnType<typeof slice.getInitialState>;
-type AppStatusActionType = PayloadAction<{ status: RequestStatusType }>;
+type AppStatusActionType = PayloadAction<{ status: EntityStatusType }>;
 type AppErrorActionType = PayloadAction<{ error: null | string }>;
 type AppInitializedActionType = PayloadAction<{ isInitialized: boolean }>;

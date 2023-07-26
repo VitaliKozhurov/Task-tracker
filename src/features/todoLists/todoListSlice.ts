@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TodoListServerType } from 'api/api';
-import { RequestStatusType } from 'app/appSlice';
+import { EntityStatus, EntityStatusType } from 'app/appSlice';
+import { TodoListServerType } from 'features/todoLists/todoListsApi';
 
-export enum FilterValueType {
-    ALL = 'all',
-    ACTIVE = 'active',
-    COMPLETED = 'completed',
-}
+export const FilterType = {
+    ALL: 'all',
+    ACTIVE: 'active',
+    COMPLETED: 'completed',
+} as const;
 
 const slice = createSlice({
     name: 'todoList',
@@ -15,8 +15,8 @@ const slice = createSlice({
         setTodoLists: (state, action: TodoListsActionType) => {
             return action.payload.todoLists.map((todo) => ({
                 ...todo,
-                filter: FilterValueType.ALL,
-                entityStatus: RequestStatusType.IDLE,
+                filter: FilterType.ALL,
+                entityStatus: EntityStatus.IDLE,
             }));
         },
         removeTodoList: (state, action: RemoveTodoListType) => {
@@ -28,8 +28,8 @@ const slice = createSlice({
         addTodoList: (state, action: AddTodoListType) => {
             state.unshift({
                 ...action.payload.todoList,
-                filter: FilterValueType.ALL,
-                entityStatus: RequestStatusType.IDLE,
+                filter: FilterType.ALL,
+                entityStatus: EntityStatus.IDLE,
             });
         },
         changeTodoListFilter: (state, action: ChangeTodoListFilterType) => {
@@ -57,11 +57,12 @@ export const todoListsReducer = slice.reducer;
 export const todoListsActions = slice.actions;
 
 // types
+type FilterValueType = (typeof FilterType)[keyof typeof FilterType];
 export type TodoListsInitialStateType = ReturnType<typeof slice.getInitialState>;
-type TodoListsType = TodoListServerType & { filter: FilterValueType } & { entityStatus: RequestStatusType };
+type TodoListsType = TodoListServerType & { filter: FilterValueType } & { entityStatus: EntityStatusType };
 type TodoListsActionType = PayloadAction<{ todoLists: TodoListServerType[] }>;
 type RemoveTodoListType = PayloadAction<{ todoListID: string }>;
 type AddTodoListType = PayloadAction<{ todoList: TodoListServerType }>;
 type ChangeTodoListFilterType = PayloadAction<{ todoListID: string; filter: FilterValueType }>;
 type ChangeTodoListTitleType = PayloadAction<{ todoListID: string; title: string }>;
-type ChangeTodoListEntityStatusType = PayloadAction<{ todoListID: string; entityStatus: RequestStatusType }>;
+type ChangeTodoListEntityStatusType = PayloadAction<{ todoListID: string; entityStatus: EntityStatusType }>;
