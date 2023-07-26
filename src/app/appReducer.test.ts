@@ -1,4 +1,4 @@
-import { appActions, AppInitialStateType, appReducer, EntityStatus } from 'app/appSlice';
+import { appActions, AppInitialStateType, appReducer, appThunks, EntityStatus } from 'app/appSlice';
 
 describe('App reducer tests', () => {
     let appState: AppInitialStateType;
@@ -27,7 +27,8 @@ describe('App reducer tests', () => {
     });
 
     it('Should change app initialized status from false to true', () => {
-        const newAppState = appReducer(appState, appActions.setAppInitialized({ isInitialized: true }));
+        const action = appThunks.authMe.fulfilled({ isInitialized: true }, 'requestId');
+        const newAppState = appReducer(appState, action);
         expect(newAppState.isInitialized).toBe(true);
     });
 });
