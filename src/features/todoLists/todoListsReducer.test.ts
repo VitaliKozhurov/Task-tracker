@@ -1,10 +1,13 @@
 import {
     FilterType,
+    getTodoLists,
     todoListsActions,
     TodoListsInitialStateType,
     todoListsReducer,
+    todoListsThunks,
 } from 'features/todoLists/todoListSlice';
 import { EntityStatus } from 'app/appSlice';
+import { TodoListServerType } from 'features/todoLists/todoListsApi';
 
 describe('TodoLists reducer tests', () => {
     let todoListsState: TodoListsInitialStateType;
@@ -31,10 +34,9 @@ describe('TodoLists reducer tests', () => {
     });
 
     it('Should add new todo list', () => {
-        const newTodoListState = todoListsReducer(
-            todoListsState,
-            todoListsActions.addTodoList({ todoList: { id: 'todo_3', title: 'Third_todo', addedDate: '', order: 3 } }),
-        );
+        const newTodo = { todoList: { id: 'todo_3', title: 'Third_todo', addedDate: '', order: 3 } };
+        const action = todoListsThunks.createTodoList.fulfilled(newTodo, 'requestId', { title: 'Third_todo' });
+        const newTodoListState = todoListsReducer(todoListsState, action);
         expect(newTodoListState.length).toBe(3);
         expect(newTodoListState[0].id).toBe('todo_3');
         expect(newTodoListState[0].filter).toBe(FilterType.ALL);
@@ -42,10 +44,9 @@ describe('TodoLists reducer tests', () => {
     });
 
     it('Should remove todolist', () => {
-        const newTodoListState = todoListsReducer(
-            todoListsState,
-            todoListsActions.removeTodoList({ todoListID: 'todo_1' }),
-        );
+        const todoListId = { todoListID: 'todo_1' };
+        const action = todoListsThunks.deleteTodoList.fulfilled(todoListId, 'requestId', todoListId);
+        const newTodoListState = todoListsReducer(todoListsState, action);
 
         expect(newTodoListState.length).toBe(1);
         expect(newTodoListState[0].id).toBe('todo_2');
@@ -53,10 +54,15 @@ describe('TodoLists reducer tests', () => {
     });
 
     it('Should change todo list title', () => {
-        const newTodoListState = todoListsReducer(
-            todoListsState,
-            todoListsActions.changeTodoListTitle({ todoListID: 'todo_2', title: 'New_title' }),
-        );
+        const payload = {
+            todoListID: 'todo_2',
+            title: {
+                title: 'New_title',
+            },
+        };
+        const action = todoListsThunks.updateTodoListTitle.fulfilled(payload, 'requestId', payload);
+
+        const newTodoListState = todoListsReducer(todoListsState, action);
 
         expect(newTodoListState[1].title).toBe('New_title');
         expect(newTodoListState[0].title).toBe('First_todo');
@@ -86,25 +92,22 @@ describe('TodoLists reducer tests', () => {
     });
 
     it('Should set todo lists', () => {
-        const newTodoListState = todoListsReducer(
-            [],
-            todoListsActions.setTodoLists({
-                todoLists: [
-                    {
-                        id: 'todo_1',
-                        title: 'First_todo',
-                        addedDate: '',
-                        order: 1,
-                    },
-                    {
-                        id: 'todo_2',
-                        title: 'Second_todo',
-                        addedDate: '',
-                        order: 2,
-                    },
-                ],
-            }),
-        );
+        const todoLists = [
+            {
+                id: 'todo_1',
+                title: 'First_todo',
+                addedDate: '',
+                order: 1,
+            },
+            {
+                id: 'todo_2',
+                title: 'Second_todo',
+                addedDate: '',
+                order: 2,
+            },
+        ];
+        const action = todoListsThunks.getTodoLists.fulfilled({ todoLists }, 'requestId');
+        const newTodoListState = todoListsReducer([], action);
 
         expect(newTodoListState.length).toBe(2);
         expect(newTodoListState[0].title).toBe('First_todo');
