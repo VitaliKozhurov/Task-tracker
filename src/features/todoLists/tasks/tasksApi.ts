@@ -4,7 +4,9 @@ import { TaskPriorities, TaskStatuses } from 'common/enums';
 
 export class TasksAPI {
     static getTasks(todoListID: string) {
-        return instance.get<GetTasksResponseType>(`todo-lists/${todoListID}/tasks`);
+        return instance.get<GetTasksResponseType, AxiosResponse<GetTasksResponseType>>(
+            `todo-lists/${todoListID}/tasks`,
+        );
     }
 
     static createTask(todoListID: string, title: { title: string }) {
@@ -31,7 +33,7 @@ export class TasksAPI {
         return instance.put<ResponseType>(`todo-lists/${todoListID}/tasks/${taskID}`);
     }
 }
-export type TaskType = {
+export type TaskServerType = {
     description: string;
     title: string;
     status: TaskStatuses;
@@ -43,6 +45,7 @@ export type TaskType = {
     order: number;
     addedDate: string;
 };
+
 export type UpdateTaskModelType = {
     title: string;
     description: string;
@@ -52,12 +55,10 @@ export type UpdateTaskModelType = {
     deadline: string;
 };
 type GetTasksResponseType = {
-    items: TaskType[];
+    items: TaskServerType[];
     totalCount: number;
     error: null | string;
 };
 type TaskResponseType = {
-    data: {
-        item: TaskType;
-    };
+    item: TaskServerType;
 };

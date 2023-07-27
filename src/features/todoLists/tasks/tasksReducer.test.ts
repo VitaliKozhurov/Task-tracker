@@ -1,7 +1,8 @@
-import { tasksActions, TasksInitialStateType, tasksReducer } from 'features/todoLists/tasks/taskSlice';
+import { tasksActions, TasksInitialStateType, tasksReducer, tasksThunks } from 'features/todoLists/tasks/taskSlice';
 import { todoListsActions } from 'features/todoLists/todoListSlice';
 import { TaskPriorities, TaskStatuses } from 'common/enums';
 import { TodoListServerType } from 'features/todoLists/todoListsApi';
+import { EntityStatus } from 'app/appSlice';
 
 describe('Tasks reducer tests', () => {
     let initialStateTasks: TasksInitialStateType;
@@ -20,6 +21,7 @@ describe('Tasks reducer tests', () => {
                     todoListId: todoListID,
                     order: 1,
                     addedDate: '',
+                    entityStatus: EntityStatus.IDLE,
                 },
                 {
                     description: 'yo',
@@ -32,6 +34,7 @@ describe('Tasks reducer tests', () => {
                     todoListId: todoListID,
                     order: 2,
                     addedDate: '',
+                    entityStatus: EntityStatus.IDLE,
                 },
             ],
         };
@@ -50,7 +53,11 @@ describe('Tasks reducer tests', () => {
             order: 3,
             addedDate: '',
         };
-        const newTasksState = tasksReducer(initialStateTasks, tasksActions.addTask({ task }));
+        const action = tasksThunks.createTask.fulfilled({ task }, 'requestId', {
+            todoListID,
+            title: { title: 'task_3' },
+        });
+        const newTasksState = tasksReducer(initialStateTasks, action);
 
         expect(newTasksState[todoListID].length).toBe(3);
         expect(newTasksState[todoListID][0].title).toBe('task_3');
@@ -58,10 +65,11 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should remove task', () => {
-        const newTasksState = tasksReducer(
-            initialStateTasks,
-            tasksActions.removeTask({ todoListID, taskID: 'task_1' }),
-        );
+        const action = tasksThunks.deleteTask.fulfilled({ todoListID, taskID: 'task_1' }, 'requestId', {
+            todoListID,
+            taskID: 'task_1',
+        });
+        const newTasksState = tasksReducer(initialStateTasks, action);
 
         expect(newTasksState[todoListID].length).toBe(1);
         expect(newTasksState[todoListID][0].title).toBe('task_2');
@@ -93,10 +101,12 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should set tasks', () => {
-        const newTasksState = tasksReducer(
-            {},
-            tasksActions.setTasks({ todoListID, tasks: initialStateTasks[todoListID] }),
+        const action = tasksThunks.getTasks.fulfilled(
+            { todoListID, tasks: initialStateTasks[todoListID] },
+            'requestID',
+            { todoListID },
         );
+        const newTasksState = tasksReducer({}, action);
 
         expect(newTasksState[todoListID].length).toBe(2);
     });
