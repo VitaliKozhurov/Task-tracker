@@ -1,5 +1,5 @@
 import { tasksActions, TasksInitialStateType, tasksReducer, tasksThunks } from 'features/todoLists/tasks/taskSlice';
-import { todoListsActions } from 'features/todoLists/todoListSlice';
+import { todoListsActions, todoListsThunks } from 'features/todoLists/todoListSlice';
 import { TaskPriorities, TaskStatuses } from 'common/enums';
 import { TodoListServerType } from 'features/todoLists/todoListsApi';
 import { EntityStatus } from 'app/appSlice';
@@ -76,22 +76,20 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should update task', () => {
-        const newTasksState = tasksReducer(
-            initialStateTasks,
-            tasksActions.updateTask({
-                todoListID,
-                taskID: 'task_1',
-                updateModel: {
-                    title: 'new_task_1',
-                    deadline: 'new_deadline',
-                    description: 'new_description',
-                    priority: TaskPriorities.Hi,
-                    startDate: 'new_startDate',
-                    status: TaskStatuses.Completed,
-                },
-            }),
-        );
-
+        const updatedTask = {
+            todoListID,
+            taskID: 'task_1',
+            updateModel: {
+                title: 'new_task_1',
+                deadline: 'new_deadline',
+                description: 'new_description',
+                priority: TaskPriorities.Hi,
+                startDate: 'new_startDate',
+                status: TaskStatuses.Completed,
+            },
+        };
+        const action = tasksThunks.updateTask.fulfilled(updatedTask, 'requestId', updatedTask);
+        const newTasksState = tasksReducer(initialStateTasks, action);
         expect(newTasksState[todoListID][0].title).toBe('new_task_1');
         expect(newTasksState[todoListID][0].deadline).toBe('new_deadline');
         expect(newTasksState[todoListID][0].description).toBe('new_description');
@@ -101,11 +99,9 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should set tasks', () => {
-        const action = tasksThunks.getTasks.fulfilled(
-            { todoListID, tasks: initialStateTasks[todoListID] },
-            'requestID',
-            { todoListID },
-        );
+        const action = tasksThunks.getTasks.fulfilled({ tasks: initialStateTasks[todoListID] }, 'requestID', {
+            todoListID,
+        });
         const newTasksState = tasksReducer({}, action);
 
         expect(newTasksState[todoListID].length).toBe(2);
@@ -113,22 +109,26 @@ describe('Tasks reducer tests', () => {
 
     it('Should change tasks state when add new todoList', () => {
         const newTodoList: TodoListServerType = { id: 'todo_2', title: 'Added todo list', addedDate: '', order: 5 };
-        const newTasksState = tasksReducer(initialStateTasks, todoListsActions.addTodoList({ todoList: newTodoList }));
+        const action = todoListsThunks.createTodoList.fulfilled({ todoList: newTodoList }, 'requestId', {
+            title: 'Added todo list',
+        });
+        const newTasksState = tasksReducer(initialStateTasks, action);
         expect(Object.keys(newTasksState).length).toBe(2);
         expect(newTasksState[newTodoList.id].length).toBe(0);
     });
 
     it('Should change tasks state when remove todoList', () => {
-        const newTasksState = tasksReducer(initialStateTasks, todoListsActions.removeTodoList({ todoListID }));
+        const action = todoListsThunks.deleteTodoList.fulfilled({ todoListID }, 'requestId', { todoListID });
+        const newTasksState = tasksReducer(initialStateTasks, action);
         expect(Object.keys(newTasksState).length).toBe(0);
     });
 
     it('Should change tasks state when set todoLists', () => {
-        const newTodoList: TodoListServerType = { id: 'todo_2', title: 'Added todo list', addedDate: '', order: 5 };
-        const newTasksState = tasksReducer(
-            initialStateTasks,
-            todoListsActions.setTodoLists({ todoLists: [newTodoList] }),
-        );
+        const newTodoLists: TodoListServerType[] = [
+            { id: 'todo_2', title: 'Added todo list', addedDate: '', order: 5 },
+        ];
+        const action = todoListsThunks.getTodoLists.fulfilled({ todoLists: newTodoLists }, 'requestId');
+        const newTasksState = tasksReducer(initialStateTasks, action);
         expect(newTasksState['todo_2']).toEqual([]);
     });
 });
