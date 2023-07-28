@@ -20,10 +20,10 @@ export const AddItemForm = () => {
     return (
         <>
             <div className={s.body}>
-                <h2 className={s.formTitle}>Todo</h2>
-                <div className={s.formBody}>
-                    <input type={'text'} onChange={onChangeTitleHandler} />
-                    <Button callback={onAddItemHandler}>
+                <h2 className={s.formTitle}>Add Todo</h2>
+                <div className={s.formBody + (title.length ? ' ' + s.successInput : '')}>
+                    <input className={s.input} type={'text'} onChange={onChangeTitleHandler} />
+                    <Button callback={onAddItemHandler} style={s.btnStyle}>
                         <MdAssignmentAdd />
                     </Button>
                     <div className={s.error}>{error}</div>

@@ -28,6 +28,7 @@ export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginRequestTy
             const result = await AuthAPI.login(arg);
             if (result.data.resultCode === ResultCode.SUCCESS) {
                 dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));
+                dispatch(appActions.setAppError({ error: null }));
                 return { isLoggedIn: true };
             } else {
                 handleServerAppError(result.data, dispatch);
@@ -39,6 +40,7 @@ export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginRequestTy
         }
     },
 );
+
 export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }>('auth/logout', async (_, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {

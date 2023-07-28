@@ -6,8 +6,9 @@ import { TodoLists } from 'features/todoLists/TodoLists';
 import { useAppDispatch, useAppSelector } from 'common/hooks/hooks';
 import { getAppInitializedStatusSelector } from 'app/app.selectors';
 import { appThunks } from 'app/appSlice';
+import { Header } from 'components/Header/Header';
 
-function App() {
+const App = () => {
     const dispatch = useAppDispatch();
     const isInitialized = useAppSelector(getAppInitializedStatusSelector);
 
@@ -18,15 +19,16 @@ function App() {
     if (!isInitialized) {
         return <h1>Initializing...</h1>;
     }
+
     return (
         <div className="App">
-            {/*<h1>Header</h1>*/}
+            <Header />
             <Routes>
                 <Route path={''} element={<TodoLists />} />
                 <Route path={'/login'} element={<Login />} />
             </Routes>
         </div>
     );
-}
+};
 
 export default App;

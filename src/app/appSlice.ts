@@ -38,7 +38,14 @@ const authMe = createAppAsyncThunk<{ isInitialized: boolean }>('app/authMe', asy
     try {
         const result = await AuthAPI.authMe();
         if (result.data.resultCode === ResultCode.SUCCESS) {
-            dispatch(authThunks.login.fulfilled);
+            // Вопрос как можно по другому диспатчить эту санку !!!!!
+            dispatch(
+                authThunks.login.fulfilled({ isLoggedIn: true }, 'requestId', {
+                    password: '',
+                    email: '',
+                    rememberMe: true,
+                }),
+            );
         } else {
             handleServerAppError(result.data, dispatch);
             return rejectWithValue(null);
@@ -46,8 +53,9 @@ const authMe = createAppAsyncThunk<{ isInitialized: boolean }>('app/authMe', asy
     } catch (e) {
         handleNetworkAppError(e, dispatch);
         return rejectWithValue(null);
+    } finally {
+        return { isInitialized: true };
     }
-    return { isInitialized: true };
 });
 
 export const appReducer = slice.reducer;
