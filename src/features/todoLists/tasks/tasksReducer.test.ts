@@ -1,5 +1,5 @@
-import { tasksActions, TasksInitialStateType, tasksReducer, tasksThunks } from 'features/todoLists/tasks/taskSlice';
-import { todoListsActions, todoListsThunks } from 'features/todoLists/todoListSlice';
+import { TasksInitialStateType, tasksReducer, tasksThunks } from 'features/todoLists/tasks/taskSlice';
+import { todoListsThunks } from 'features/todoLists/todoListSlice';
 import { TaskPriorities, TaskStatuses } from 'common/enums';
 import { TodoListServerType } from 'features/todoLists/todoListsApi';
 import { EntityStatus } from 'app/appSlice';
@@ -53,10 +53,7 @@ describe('Tasks reducer tests', () => {
             order: 3,
             addedDate: '',
         };
-        const action = tasksThunks.createTask.fulfilled({ task }, 'requestId', {
-            todoListID,
-            title: { title: 'task_3' },
-        });
+        const action = { type: tasksThunks.createTask.fulfilled.type, payload: { task } };
         const newTasksState = tasksReducer(initialStateTasks, action);
 
         expect(newTasksState[todoListID].length).toBe(3);
@@ -65,10 +62,13 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should remove task', () => {
-        const action = tasksThunks.deleteTask.fulfilled({ todoListID, taskID: 'task_1' }, 'requestId', {
-            todoListID,
-            taskID: 'task_1',
-        });
+        const action = {
+            type: tasksThunks.deleteTask.fulfilled.type,
+            payload: {
+                todoListID,
+                taskID: 'task_1',
+            },
+        };
         const newTasksState = tasksReducer(initialStateTasks, action);
 
         expect(newTasksState[todoListID].length).toBe(1);
@@ -76,7 +76,7 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should update task', () => {
-        const updatedTask = {
+        const updatedTaskData = {
             todoListID,
             taskID: 'task_1',
             updateModel: {
@@ -88,7 +88,7 @@ describe('Tasks reducer tests', () => {
                 status: TaskStatuses.Completed,
             },
         };
-        const action = tasksThunks.updateTask.fulfilled(updatedTask, 'requestId', updatedTask);
+        const action = { type: tasksThunks.updateTask.fulfilled.type, payload: updatedTaskData };
         const newTasksState = tasksReducer(initialStateTasks, action);
         expect(newTasksState[todoListID][0].title).toBe('new_task_1');
         expect(newTasksState[todoListID][0].deadline).toBe('new_deadline');
@@ -99,9 +99,7 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should set tasks', () => {
-        const action = tasksThunks.getTasks.fulfilled({ tasks: initialStateTasks[todoListID] }, 'requestID', {
-            todoListID,
-        });
+        const action = { type: tasksThunks.getTasks.fulfilled.type, payload: { tasks: initialStateTasks[todoListID] } };
         const newTasksState = tasksReducer({}, action);
 
         expect(newTasksState[todoListID].length).toBe(2);
@@ -109,16 +107,15 @@ describe('Tasks reducer tests', () => {
 
     it('Should change tasks state when add new todoList', () => {
         const newTodoList: TodoListServerType = { id: 'todo_2', title: 'Added todo list', addedDate: '', order: 5 };
-        const action = todoListsThunks.createTodoList.fulfilled({ todoList: newTodoList }, 'requestId', {
-            title: 'Added todo list',
-        });
+        const action = { type: todoListsThunks.createTodoList.fulfilled.type, payload: { todoList: newTodoList } };
+
         const newTasksState = tasksReducer(initialStateTasks, action);
         expect(Object.keys(newTasksState).length).toBe(2);
         expect(newTasksState[newTodoList.id].length).toBe(0);
     });
 
     it('Should change tasks state when remove todoList', () => {
-        const action = todoListsThunks.deleteTodoList.fulfilled({ todoListID }, 'requestId', { todoListID });
+        const action = { type: todoListsThunks.deleteTodoList.fulfilled.type, payload: { todoListID } };
         const newTasksState = tasksReducer(initialStateTasks, action);
         expect(Object.keys(newTasksState).length).toBe(0);
     });
@@ -127,7 +124,7 @@ describe('Tasks reducer tests', () => {
         const newTodoLists: TodoListServerType[] = [
             { id: 'todo_2', title: 'Added todo list', addedDate: '', order: 5 },
         ];
-        const action = todoListsThunks.getTodoLists.fulfilled({ todoLists: newTodoLists }, 'requestId');
+        const action = { type: todoListsThunks.getTodoLists.fulfilled.type, payload: { todoLists: newTodoLists } };
         const newTasksState = tasksReducer(initialStateTasks, action);
         expect(newTasksState['todo_2']).toEqual([]);
     });

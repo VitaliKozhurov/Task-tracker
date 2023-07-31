@@ -5,11 +5,7 @@ describe('Auth reducer tests', () => {
         let authState: AuthInitialStateType = {
             isLoggedIn: false,
         };
-        const action = login.fulfilled({ isLoggedIn: true }, 'requestId', {
-            email: ' ',
-            password: ' ',
-            rememberMe: true,
-        });
+        const action = { type: login.fulfilled.type, payload: { isLoggedIn: true } };
         const newAuthState = authReducer(authState, action);
         expect(newAuthState.isLoggedIn).toBe(true);
     });
@@ -18,7 +14,7 @@ describe('Auth reducer tests', () => {
         let authState: AuthInitialStateType = {
             isLoggedIn: true,
         };
-        const action = logout.fulfilled({ isLoggedIn: false }, 'requestId');
+        const action = { type: logout.fulfilled.type, payload: { isLoggedIn: false } };
         const newAuthState = authReducer(authState, action);
         expect(newAuthState.isLoggedIn).toBe(false);
     });

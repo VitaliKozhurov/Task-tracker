@@ -27,7 +27,7 @@ describe('App reducer tests', () => {
     });
 
     it('Should change app initialized status from false to true', () => {
-        const action = appThunks.authMe.fulfilled({ isInitialized: true }, 'requestId');
+        const action = { type: appThunks.authMe.fulfilled.type, payload: { isInitialized: true } };
         const newAppState = appReducer(appState, action);
         expect(newAppState.isInitialized).toBe(true);
     });
