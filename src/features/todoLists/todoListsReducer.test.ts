@@ -19,6 +19,7 @@ describe('TodoLists reducer tests', () => {
                 order: 1,
                 filter: FilterType.ALL,
                 entityStatus: EntityStatus.IDLE,
+                isActive: false,
             },
             {
                 id: 'todo_2',
@@ -27,6 +28,7 @@ describe('TodoLists reducer tests', () => {
                 order: 2,
                 filter: FilterType.ALL,
                 entityStatus: EntityStatus.IDLE,
+                isActive: false,
             },
         ];
     });

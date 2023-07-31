@@ -26,6 +26,15 @@ const slice = createSlice({
                 state[index].entityStatus = action.payload.entityStatus;
             }
         },
+        changeTodoListActiveStatus: (state, action: ChangeTodoListActiveStatusType) => {
+            return state.map((todo) =>
+                todo.id === action.payload.todoListID ? { ...todo, isActive: true } : { ...todo, isActive: false },
+            );
+            // const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
+            // if (index !== -1) {
+            //     state[index].isActive = action.payload.activeStatus;
+            // }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -34,6 +43,7 @@ const slice = createSlice({
                     ...todo,
                     filter: FilterType.ALL,
                     entityStatus: EntityStatus.IDLE,
+                    isActive: false,
                 }));
             })
             .addCase(createTodoList.fulfilled, (state, action) => {
@@ -41,6 +51,7 @@ const slice = createSlice({
                     ...action.payload.todoList,
                     filter: FilterType.ALL,
                     entityStatus: EntityStatus.IDLE,
+                    isActive: false,
                 });
             })
             .addCase(deleteTodoList.fulfilled, (state, action) => {
@@ -171,6 +182,9 @@ export const todoListsThunks = { getTodoLists, createTodoList, deleteTodoList, u
 // types
 type FilterValueType = (typeof FilterType)[keyof typeof FilterType];
 export type TodoListsInitialStateType = ReturnType<typeof slice.getInitialState>;
-type TodoListsType = TodoListServerType & { filter: FilterValueType } & { entityStatus: EntityStatusType };
+export type TodoListsType = TodoListServerType & { filter: FilterValueType } & { entityStatus: EntityStatusType } & {
+    isActive: boolean;
+};
 type ChangeTodoListFilterType = PayloadAction<{ todoListID: string; filter: FilterValueType }>;
 type ChangeTodoListEntityStatusType = PayloadAction<{ todoListID: string; entityStatus: EntityStatusType }>;
+type ChangeTodoListActiveStatusType = PayloadAction<{ todoListID: string; activeStatus: boolean }>;

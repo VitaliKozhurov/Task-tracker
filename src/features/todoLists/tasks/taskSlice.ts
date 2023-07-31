@@ -69,7 +69,7 @@ export const getTasks = createAppAsyncThunk<{ tasks: TaskServerType[] }, { todoL
         try {
             dispatch(appActions.setAppStatus({ status: EntityStatus.LOADING }));
             const result = await TasksAPI.getTasks(arg.todoListID);
-            if (!!result.data.error) {
+            if (!result.data.error) {
                 dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));
                 return { tasks: result.data.items };
             } else {
