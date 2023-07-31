@@ -19,7 +19,7 @@ const slice = createSlice({
     },
 });
 
-export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginRequestType>(
+export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginRequestType, { rejectValue: string | null }>(
     'auth/login',
     async (arg, thunkAPI) => {
         const { dispatch, rejectWithValue } = thunkAPI;
@@ -27,16 +27,18 @@ export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginRequestTy
             dispatch(appActions.setAppStatus({ status: EntityStatus.LOADING }));
             const result = await AuthAPI.login(arg);
             if (result.data.resultCode === ResultCode.SUCCESS) {
-                dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));
+                // dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));
                 dispatch(appActions.setAppError({ error: null }));
                 return { isLoggedIn: true };
             } else {
-                handleServerAppError(result.data, dispatch);
-                return rejectWithValue(null);
+                //handleServerAppError(result.data, dispatch);
+                return rejectWithValue(result.data.messages[0]);
             }
         } catch (e) {
             handleNetworkAppError(e, dispatch);
             return rejectWithValue(null);
+        } finally {
+            dispatch(appActions.setAppStatus({ status: EntityStatus.IDLE }));
         }
     },
 );

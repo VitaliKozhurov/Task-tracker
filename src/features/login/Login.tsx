@@ -38,8 +38,16 @@ export const Login = () => {
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: (values, formikHelpers) => {
-            dispatch(authThunks.login(values));
+        onSubmit: async (values, { setFieldError }) => {
+            const loginResponse = await dispatch(authThunks.login(values));
+            if (authThunks.login.rejected.match(loginResponse)) {
+                setFieldError('email', ' ');
+                if (loginResponse.payload) {
+                    setFieldError('password', loginResponse.payload);
+                } else {
+                    setFieldError('password', 'Incorrect input data');
+                }
+            }
         },
     });
 
@@ -83,7 +91,9 @@ export const Login = () => {
                     <label htmlFor={'login'} className={s.loginLabelCheckBox}></label>
                     <span>Remember me</span>
                 </div>
-                <button className={s.loginButton}>Sign In</button>
+                <button type={'submit'} className={s.loginButton}>
+                    Sign In
+                </button>
             </form>
         </div>
     );
