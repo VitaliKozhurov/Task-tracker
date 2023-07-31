@@ -1,0 +1,11 @@
+.title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  width: 80%;
+
+  &::placeholder{
+    font-size: 15px;
+    color: #b00020;
+  }
+}
