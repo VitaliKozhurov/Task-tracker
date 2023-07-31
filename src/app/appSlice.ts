@@ -39,13 +39,7 @@ const authMe = createAppAsyncThunk<{ isInitialized: boolean }>('app/authMe', asy
         const result = await AuthAPI.authMe();
         if (result.data.resultCode === ResultCode.SUCCESS) {
             // Вопрос как можно по другому диспатчить эту санку !!!!!
-            dispatch(
-                authThunks.login.fulfilled({ isLoggedIn: true }, 'requestId', {
-                    password: '',
-                    email: '',
-                    rememberMe: true,
-                }),
-            );
+            dispatch({ type: authThunks.login.fulfilled.type, payload: { isLoggedIn: true } });
         } else {
             handleServerAppError(result.data, dispatch);
             return rejectWithValue(null);

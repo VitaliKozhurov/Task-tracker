@@ -22,12 +22,16 @@ export const TodoLists = () => {
         return <Navigate to={'/login'} />;
     }
 
+    const addTodoList = (title: string) => {
+        dispatch(todoListsThunks.createTodoList({ title }));
+    };
+
     return (
         <>
             <div className={s.todoListsBody}>
                 <div className={s.addTodoItem}>
                     <h2 className={s.title}>Menu</h2>
-                    <AddItemForm />
+                    <AddItemForm title={'Todo List'} callback={addTodoList} />
                     <div className={s.todoList}>
                         {todoLists.map((todo) => (
                             <TodoList key={todo.id} {...todo} />

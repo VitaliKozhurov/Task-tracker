@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import s from './TodoList.module.scss';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';

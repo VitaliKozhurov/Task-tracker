@@ -99,7 +99,10 @@ describe('Tasks reducer tests', () => {
     });
 
     it('Should set tasks', () => {
-        const action = { type: tasksThunks.getTasks.fulfilled.type, payload: { tasks: initialStateTasks[todoListID] } };
+        const action = {
+            type: tasksThunks.getTasks.fulfilled.type,
+            payload: { tasks: initialStateTasks[todoListID], todoListID },
+        };
         const newTasksState = tasksReducer({}, action);
 
         expect(newTasksState[todoListID].length).toBe(2);

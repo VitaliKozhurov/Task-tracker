@@ -1,10 +1,15 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import s from 'components/AddItemForm/AddItemForm.module.scss';
 import { MdAssignmentAdd } from 'react-icons/md';
 import { Button } from 'components/Button/Button';
 
-export const AddItemForm = () => {
-    const [title, setTitle] = useState('');
+type AddItemFormPropsType = {
+    title: string;
+    callback: (title: string) => void;
+};
+
+export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
+    const [itemTitle, setTitle] = useState('');
     const [error, setError] = useState<null | string>(null);
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         error && setError(null);
@@ -12,16 +17,18 @@ export const AddItemForm = () => {
     };
 
     const onAddItemHandler = () => {
-        if (!title.length) {
+        if (!itemTitle.length) {
             setError('Title can not be empty');
+        } else {
+            callback(itemTitle);
         }
     };
 
     return (
         <>
             <div className={s.body}>
-                <h2 className={s.formTitle}>Add Todo</h2>
-                <div className={s.formBody + (title.length ? ' ' + s.successInput : '')}>
+                <h2 className={s.formTitle}>Add {title}</h2>
+                <div className={s.formBody + (itemTitle.length ? ' ' + s.successInput : '')}>
                     <input className={s.input} type={'text'} onChange={onChangeTitleHandler} />
                     <Button callback={onAddItemHandler} style={s.btnStyle}>
                         <MdAssignmentAdd />

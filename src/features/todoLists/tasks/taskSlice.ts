@@ -44,7 +44,7 @@ const slice = createSlice({
                 }
             })
             .addCase(tasksThunks.getTasks.fulfilled, (state, action) => {
-                state[action.payload.tasks[0].todoListId] = action.payload.tasks.map((task) => ({
+                state[action.payload.todoListID] = action.payload.tasks.map((task) => ({
                     ...task,
                     entityStatus: EntityStatus.IDLE,
                 }));
@@ -62,7 +62,7 @@ const slice = createSlice({
     },
 });
 
-export const getTasks = createAppAsyncThunk<{ tasks: TaskServerType[] }, { todoListID: string }>(
+export const getTasks = createAppAsyncThunk<{ tasks: TaskServerType[]; todoListID: string }, { todoListID: string }>(
     'tasks/getTasks',
     async (arg, thunkAPI) => {
         const { dispatch, rejectWithValue } = thunkAPI;
@@ -71,7 +71,7 @@ export const getTasks = createAppAsyncThunk<{ tasks: TaskServerType[] }, { todoL
             const result = await TasksAPI.getTasks(arg.todoListID);
             if (!result.data.error) {
                 dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));
-                return { tasks: result.data.items };
+                return { tasks: result.data.items, todoListID: arg.todoListID };
             } else {
                 dispatch(appActions.setAppStatus({ status: EntityStatus.FAILED }));
                 dispatch(appActions.setAppError({ error: result.data.error }));
