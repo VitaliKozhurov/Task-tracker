@@ -1,0 +1,23 @@
+.errorBody {
+  width: 340px;
+  background-color: #FF3333;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 15px 40px;
+  border-radius: 5px;
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  & svg {
+    position: absolute;
+    top:3px;
+    right: 3px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+}
