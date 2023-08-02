@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { todoListsThunks } from 'features/todoLists/todoListSlice';
+import { todoListsActions, todoListsThunks } from 'features/todoLists/todoListSlice';
 import { TasksAPI, TaskServerType, UpdateTaskModelType } from 'features/todoLists/tasks/tasksApi';
 import { createAppAsyncThunk, handleServerAppError, thunkTryCatch } from 'common/utils';
 import { appActions, EntityStatus, EntityStatusType } from 'app/appSlice';
@@ -15,6 +15,11 @@ const slice = createSlice({
             if (index !== -1) {
                 tasks[index].entityStatus = action.payload.entityStatus;
             }
+        },
+        changeTaskActiveStatus: (state, action: ChangeTaskActiveStatusType) => {
+            state[action.payload.todoListID] = state[action.payload.todoListID].map((task) =>
+                task.id === action.payload.taskID ? { ...task, isActive: true } : { ...task, isActive: false },
+            );
         },
     },
     extraReducers: (builder) => {
@@ -34,6 +39,7 @@ const slice = createSlice({
                 state[action.payload.task.todoListId].unshift({
                     ...action.payload.task,
                     entityStatus: EntityStatus.IDLE,
+                    isActive: false,
                 });
             })
             .addCase(tasksThunks.deleteTask.fulfilled, (state, action) => {
@@ -47,6 +53,7 @@ const slice = createSlice({
                 state[action.payload.todoListID] = action.payload.tasks.map((task) => ({
                     ...task,
                     entityStatus: EntityStatus.IDLE,
+                    isActive: false,
                 }));
             })
             .addCase(tasksThunks.updateTask.fulfilled, (state, action) => {
@@ -57,6 +64,11 @@ const slice = createSlice({
                         ...tasksForCurrentTodoList[index],
                         ...action.payload.updateModel,
                     };
+                }
+            })
+            .addCase(todoListsActions.changeTodoListActiveStatus, (state, action) => {
+                for (let key in state) {
+                    state[key] = state[key].map((task) => ({ ...task, isActive: false }));
                 }
             });
     },
@@ -179,8 +191,9 @@ type TasksType = {
     [key: string]: TaskType[];
 };
 type UpdateModelType = Partial<UpdateTaskModelType>;
-type TaskType = TaskServerType & { entityStatus: EntityStatusType };
+export type TaskType = TaskServerType & { entityStatus: EntityStatusType; isActive: boolean };
 type ChangeTaskEntityStatusType = PayloadAction<{ todoListID: string; taskID: string; entityStatus: EntityStatusType }>;
+type ChangeTaskActiveStatusType = PayloadAction<{ todoListID: string; taskID: string; isActive: boolean }>;
 type UpdateTaskArgType = { todoListID: string; taskID: string; updateModel: UpdateModelType };
 type CreateTaskArgType = { todoListID: string; title: { title: string } };
 type DeleteTaskArgType = { todoListID: string; taskID: string };

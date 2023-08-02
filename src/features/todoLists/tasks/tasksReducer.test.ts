@@ -22,6 +22,7 @@ describe('Tasks reducer tests', () => {
                     order: 1,
                     addedDate: '',
                     entityStatus: EntityStatus.IDLE,
+                    isActive: false,
                 },
                 {
                     description: 'yo',
@@ -35,6 +36,7 @@ describe('Tasks reducer tests', () => {
                     order: 2,
                     addedDate: '',
                     entityStatus: EntityStatus.IDLE,
+                    isActive: false,
                 },
             ],
         };

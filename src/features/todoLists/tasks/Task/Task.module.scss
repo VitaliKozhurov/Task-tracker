@@ -7,6 +7,7 @@
   text-align: left;
   display: flex;
   align-items: center;
+  position: relative;
 
   & input {
     margin-right: 20px;
@@ -28,7 +29,7 @@
 
       &:hover {
         cursor: pointer;
-        transform: translateX(8px);
+        transform: translateX(5px);
       }
     }
   }
@@ -73,4 +74,8 @@
       }
     }
   }
+}
+
+.isActive {
+  background: rgba(32, 136, 176, 0.4);
 }

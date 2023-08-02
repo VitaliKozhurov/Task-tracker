@@ -1,47 +1,5 @@
 .todoListsBody {
   display: flex;
   padding: 30px;
-  //background-image: linear-gradient(to right top, #845EC2, #009EFA, #00D2FC, #4FFBDF);
   height: calc(100vh - 80px);
-
-  .title{
-    font-size: 24px;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 40px;
-    text-align: left;
-  }
-
-  .addTodoItem {
-    flex: 0 1 300px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    border-radius: 10px;
-  }
-
-  .todoList{
-    display: flex;
-    flex-direction: column;
-    &>:not(:last-child){
-      margin-bottom: 20px;
-    }
-  }
-
-  .todoItem{
-    flex: 0 1 500px;
-    padding: 20px 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    margin: 0 30px;
-    .todoTitle{
-      font-size: 24px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 40px;
-    }
-    .taskCreator{
-      padding: 0 50px ;
-    }
-  }
 }

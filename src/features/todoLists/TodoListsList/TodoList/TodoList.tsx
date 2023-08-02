@@ -1,17 +1,16 @@
 import React, { FC, useState } from 'react';
-import s from './TodoList.module.scss';
+import s from 'features/todoLists/TodoListsList/TodoList/TodoList.module.scss';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { todoListsActions, todoListsThunks, TodoListsType } from 'features/todoLists/todoListSlice';
-import { RiDeleteBin2Fill } from 'react-icons/ri';
 import { EditInput } from 'components/EditInput/EditInput';
+import { RemoveIcon } from 'components/RemoveIcon/RemoveIcon';
 
 export const TodoList: FC<TodoListsType> = React.memo(({ id, title, isActive, entityStatus }) => {
-    console.log('Render todo', id);
     const [editMode, setEditMode] = useState(false);
     const dispatch = useAppDispatch();
-    const setTodoActiveHandler = () => {
+    const setActiveTodoListStatus = () => {
         dispatch(todoListsActions.changeTodoListActiveStatus({ todoListID: id, activeStatus: true }));
     };
     const deleteTodoList = () => {
@@ -39,12 +38,10 @@ export const TodoList: FC<TodoListsType> = React.memo(({ id, title, isActive, en
             {!editMode && (
                 <div className={s.icons}>
                     <AiFillEdit className={s.icon} onClick={activateEditMode} />
-                    <MdOutlineArrowForwardIos className={s.icon} onClick={setTodoActiveHandler} />
+                    <MdOutlineArrowForwardIos className={s.icon} onClick={setActiveTodoListStatus} />
                 </div>
             )}
-            <div className={s.removeIcon} onClick={deleteTodoList}>
-                <RiDeleteBin2Fill />
-            </div>
+            <RemoveIcon callback={deleteTodoList} />
         </div>
     );
 });
