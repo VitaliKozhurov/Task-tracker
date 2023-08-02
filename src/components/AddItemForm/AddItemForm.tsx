@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { KeyboardEvent, FC, useState, ChangeEvent } from 'react';
 import s from 'components/AddItemForm/AddItemForm.module.scss';
 import { MdAssignmentAdd } from 'react-icons/md';
 import { Button } from 'components/Button/Button';
@@ -21,6 +21,13 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
             setError('Title can not be empty');
         } else {
             callback(itemTitle);
+            setTitle('');
+        }
+    };
+
+    const onPressEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.code === 'Enter') {
+            onAddItemHandler();
         }
     };
 
@@ -29,7 +36,13 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
             <div className={s.body}>
                 <h2 className={s.formTitle}>Add {title}</h2>
                 <div className={s.formBody + (itemTitle.length ? ' ' + s.successInput : '')}>
-                    <input className={s.input} type={'text'} onChange={onChangeTitleHandler} />
+                    <input
+                        className={s.input}
+                        type={'text'}
+                        value={itemTitle}
+                        onChange={onChangeTitleHandler}
+                        onKeyUp={onPressEnterHandler}
+                    />
                     <Button callback={onAddItemHandler} style={s.btnStyle}>
                         <MdAssignmentAdd />
                     </Button>

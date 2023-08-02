@@ -28,10 +28,9 @@ export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginRequestTy
             const result = await AuthAPI.login(arg);
             if (result.data.resultCode === ResultCode.SUCCESS) {
                 // dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));
-                dispatch(appActions.setAppError({ error: null }));
+                // dispatch(appActions.setAppError({ error: null }));
                 return { isLoggedIn: true };
             } else {
-                //handleServerAppError(result.data, dispatch);
                 return rejectWithValue(result.data.messages[0]);
             }
         } catch (e) {
@@ -62,6 +61,5 @@ export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }>('auth/logout'
 });
 
 export const authReducer = slice.reducer;
-export const authActions = slice.actions;
 export const authThunks = { login, logout };
 export type AuthInitialStateType = ReturnType<typeof slice.getInitialState>;

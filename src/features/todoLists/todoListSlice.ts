@@ -3,6 +3,7 @@ import { appActions, EntityStatus, EntityStatusType } from 'app/appSlice';
 import { TodoListsApi, TodoListServerType } from 'features/todoLists/todoListsApi';
 import { createAppAsyncThunk, handleNetworkAppError, handleServerAppError } from 'common/utils';
 import { ResultCode } from 'common/api/api';
+import { tasksThunks } from 'features/todoLists/tasks/taskSlice';
 
 export const FilterType = {
     ALL: 'all',
@@ -30,10 +31,6 @@ const slice = createSlice({
             return state.map((todo) =>
                 todo.id === action.payload.todoListID ? { ...todo, isActive: true } : { ...todo, isActive: false },
             );
-            // const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
-            // if (index !== -1) {
-            //     state[index].isActive = action.payload.activeStatus;
-            // }
         },
     },
     extraReducers: (builder) => {
@@ -76,6 +73,7 @@ export const getTodoLists = createAppAsyncThunk<{ todoLists: TodoListServerType[
         try {
             dispatch(appActions.setAppStatus({ status: EntityStatus.LOADING }));
             const result = await TodoListsApi.getTodoLists();
+            result.data.forEach((todo) => dispatch(tasksThunks.getTasks({ todoListID: todo.id })));
             dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));
             return { todoLists: result.data };
         } catch (e) {

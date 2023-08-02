@@ -1,10 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import s from './TodoList.module.scss';
 import { AiFillEdit } from 'react-icons/ai';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { todoListsActions, todoListsThunks, TodoListsType } from 'features/todoLists/todoListSlice';
-import { tasksThunks } from 'features/todoLists/tasks/taskSlice';
 import { RiDeleteBin2Fill } from 'react-icons/ri';
 import { EditInput } from 'components/EditInput/EditInput';
 
@@ -28,9 +27,6 @@ export const TodoList: FC<TodoListsType> = ({ id, title, isActive }) => {
             deactivateEditMode(),
         );
     };
-    useEffect(() => {
-        dispatch(tasksThunks.getTasks({ todoListID: id }));
-    }, []);
 
     return (
         <div className={s.todoBody + (isActive ? ' ' + s.isActive : '')}>

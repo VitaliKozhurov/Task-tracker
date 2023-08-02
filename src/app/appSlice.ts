@@ -25,15 +25,13 @@ const slice = createSlice({
         setAppError: (state, action: AppErrorActionType) => {
             state.error = action.payload.error;
         },
-    },
-    extraReducers: (builder) => {
-        builder.addCase(authMe.fulfilled, (state, action) => {
+        setAppInitialized: (state, action: AppInitializedActionType) => {
             state.isInitialized = action.payload.isInitialized;
-        });
+        },
     },
 });
 
-const authMe = createAppAsyncThunk<{ isInitialized: boolean }>('app/authMe', async (_, thunkAPI) => {
+const authMe = createAppAsyncThunk<void, void>('app/authMe', async (_, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
         const result = await AuthAPI.authMe();
@@ -48,7 +46,7 @@ const authMe = createAppAsyncThunk<{ isInitialized: boolean }>('app/authMe', asy
         handleNetworkAppError(e, dispatch);
         return rejectWithValue(null);
     } finally {
-        return { isInitialized: true };
+        dispatch(appActions.setAppInitialized({ isInitialized: true }));
     }
 });
 
@@ -59,3 +57,4 @@ export type EntityStatusType = (typeof EntityStatus)[keyof typeof EntityStatus];
 export type AppInitialStateType = ReturnType<typeof slice.getInitialState>;
 type AppStatusActionType = PayloadAction<{ status: EntityStatusType }>;
 type AppErrorActionType = PayloadAction<{ error: null | string }>;
+type AppInitializedActionType = PayloadAction<{ isInitialized: boolean }>;

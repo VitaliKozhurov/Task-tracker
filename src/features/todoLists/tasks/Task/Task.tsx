@@ -6,7 +6,7 @@ import { Priority } from 'components/Priority/Priority';
 import { AddedDate } from 'components/AddedDate/AddedDate';
 import { Deadline } from 'components/Deadline/Deadline';
 
-export const Task: FC<TaskServerType> = ({ title, deadline, priority, addedDate }) => {
+export const Task: FC<TaskServerType> = ({ title, deadline, priority, addedDate, todoListId }) => {
     return (
         <>
             <div className={s.taskBody}>
