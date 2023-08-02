@@ -9,6 +9,7 @@ export type ResponseType<T = {}> = {
     resultCode: number;
     messages: string[];
     data: T;
+    fieldsErrors: FieldErrorType[];
 };
 
 export const ResultCode = {
@@ -16,3 +17,8 @@ export const ResultCode = {
     ERROR: 1,
     CAPTCHA: 10,
 } as const;
+
+type FieldErrorType = {
+    error: string;
+    field: string;
+};

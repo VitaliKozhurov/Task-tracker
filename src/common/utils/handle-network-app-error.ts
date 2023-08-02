@@ -1,6 +1,6 @@
 import { AppDispatch } from 'app/store';
 import axios, { AxiosError } from 'axios';
-import { appActions, EntityStatus } from 'app/appSlice';
+import { appActions } from 'app/appSlice';
 
 export const handleNetworkAppError = (e: unknown, dispatch: AppDispatch) => {
     const err = e as Error | AxiosError<{ error: string }>;
@@ -10,5 +10,4 @@ export const handleNetworkAppError = (e: unknown, dispatch: AppDispatch) => {
     } else {
         dispatch(appActions.setAppError({ error: `Native error ${err.message}` }));
     }
-    dispatch(appActions.setAppStatus({ status: EntityStatus.FAILED }));
 };

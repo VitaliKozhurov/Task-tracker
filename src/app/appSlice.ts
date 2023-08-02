@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createAppAsyncThunk, handleNetworkAppError, handleServerAppError } from 'common/utils';
+import { createAppAsyncThunk, thunkTryCatch } from 'common/utils';
 import { AuthAPI } from 'features/login/authApi';
 import { ResultCode } from 'common/api/api';
 import { authThunks } from 'features/login/authSlice';
@@ -31,23 +31,17 @@ const slice = createSlice({
     },
 });
 
-const authMe = createAppAsyncThunk<void, void>('app/authMe', async (_, thunkAPI) => {
+const authMe = createAppAsyncThunk<void, void>('app/authMe', (_, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    try {
+    return thunkTryCatch(thunkAPI, async () => {
         const result = await AuthAPI.authMe();
         if (result.data.resultCode === ResultCode.SUCCESS) {
             // Вопрос как можно по другому диспатчить эту санку !!!!!
             dispatch({ type: authThunks.login.fulfilled.type, payload: { isLoggedIn: true } });
         } else {
-            handleServerAppError(result.data, dispatch);
             return rejectWithValue(null);
         }
-    } catch (e) {
-        handleNetworkAppError(e, dispatch);
-        return rejectWithValue(null);
-    } finally {
-        dispatch(appActions.setAppInitialized({ isInitialized: true }));
-    }
+    }).finally(() => dispatch(appActions.setAppInitialized({ isInitialized: true })));
 });
 
 export const appReducer = slice.reducer;

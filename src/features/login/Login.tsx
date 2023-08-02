@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 import { authThunks } from 'features/login/authSlice';
 import { getAuthLoggedStatusSelector } from 'features/login/auth.selectors';
 import s from 'features/login/Login.module.scss';
+import { ResponseType } from 'common/api/api';
 
 type InitialValueFormType = {
     email: string;
@@ -39,14 +40,12 @@ export const Login = () => {
         initialValues,
         validationSchema,
         onSubmit: async (values, { setFieldError }) => {
-            const loginResponse = await dispatch(authThunks.login(values));
-            if (authThunks.login.rejected.match(loginResponse)) {
-                setFieldError('email', ' ');
-                if (loginResponse.payload) {
-                    setFieldError('password', loginResponse.payload);
-                } else {
-                    setFieldError('password', 'Incorrect input data');
-                }
+            try {
+                const loginResponse = await dispatch(authThunks.login(values)).unwrap();
+            } catch (e) {
+                const errorResponse = e as ResponseType;
+                const { fieldsErrors } = errorResponse;
+                fieldsErrors && fieldsErrors.forEach((field) => setFieldError(field.field, field.error));
             }
         },
     });

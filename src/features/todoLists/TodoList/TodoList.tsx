@@ -7,7 +7,8 @@ import { todoListsActions, todoListsThunks, TodoListsType } from 'features/todoL
 import { RiDeleteBin2Fill } from 'react-icons/ri';
 import { EditInput } from 'components/EditInput/EditInput';
 
-export const TodoList: FC<TodoListsType> = ({ id, title, isActive }) => {
+export const TodoList: FC<TodoListsType> = React.memo(({ id, title, isActive, entityStatus }) => {
+    console.log('Render todo', id);
     const [editMode, setEditMode] = useState(false);
     const dispatch = useAppDispatch();
     const setTodoActiveHandler = () => {
@@ -46,4 +47,4 @@ export const TodoList: FC<TodoListsType> = ({ id, title, isActive }) => {
             </div>
         </div>
     );
-};
+});
