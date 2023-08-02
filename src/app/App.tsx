@@ -25,7 +25,8 @@ const App = () => {
         <div className="App">
             <Header />
             <Routes>
-                <Route path={''} element={<TodoLists />} />
+                <Route path={''} element={<div>Hello</div>} />
+                <Route path={'/todolists'} element={<TodoLists />} />
                 <Route path={'/login'} element={<Login />} />
             </Routes>
             <ErrorNotification />

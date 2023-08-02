@@ -14,19 +14,20 @@ export const Tasks = () => {
     const addTask = (title: string) => {
         dispatch(tasksThunks.createTask({ title: { title }, todoListID: activeTodoList ? activeTodoList.id : '' }));
     };
+
     return (
-        <>
-            <div className={s.todoItem}>
-                <h2 className={s.todoTitle}>
-                    Today {`${new Date().getDate()} / ${new Date().getMonth() + 1} / ${new Date().getFullYear()}`}
-                </h2>
-                <div className={s.taskCreator}>
-                    {activeTodoList && <AddItemForm title={'Tasks'} callback={addTask} />}
-                    {tasks.map((task) => (
-                        <Task {...task} />
-                    ))}
-                </div>
-            </div>
-        </>
+        <div className={s.todoItem}>
+            {activeTodoList && (
+                <>
+                    <h2 className={s.todoTitle}>{`Tasks for ${activeTodoList.title}`}</h2>
+                    <div className={s.taskCreator}>
+                        {<AddItemForm title={'Tasks'} callback={addTask} />}
+                        {tasks.map((task) => (
+                            <Task {...task} />
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
     );
 };

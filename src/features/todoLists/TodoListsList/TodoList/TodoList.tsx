@@ -33,13 +33,13 @@ export const TodoList: FC<TodoListsType> = React.memo(({ id, title, isActive, en
             {editMode ? (
                 <EditInput title={title} changeTitle={changeTodoListTitle} />
             ) : (
-                <h2 className={s.title}>{title}</h2>
-            )}
-            {!editMode && (
-                <div className={s.icons}>
-                    <AiFillEdit className={s.icon} onClick={activateEditMode} />
-                    <MdOutlineArrowForwardIos className={s.icon} onClick={setActiveTodoListStatus} />
-                </div>
+                <>
+                    <h2 className={s.title}>{title}</h2>
+                    <div className={s.icons}>
+                        <AiFillEdit className={s.icon} onClick={activateEditMode} />
+                        <MdOutlineArrowForwardIos className={s.icon} onClick={setActiveTodoListStatus} />
+                    </div>
+                </>
             )}
             <RemoveIcon callback={deleteTodoList} />
         </div>
