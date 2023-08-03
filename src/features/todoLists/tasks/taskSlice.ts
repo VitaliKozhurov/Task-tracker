@@ -190,10 +190,10 @@ export type TasksInitialStateType = ReturnType<typeof slice.getInitialState>;
 type TasksType = {
     [key: string]: TaskType[];
 };
-type UpdateModelType = Partial<UpdateTaskModelType>;
+export type UpdateModelType = Partial<UpdateTaskModelType>;
 export type TaskType = TaskServerType & { entityStatus: EntityStatusType; isActive: boolean };
 type ChangeTaskEntityStatusType = PayloadAction<{ todoListID: string; taskID: string; entityStatus: EntityStatusType }>;
-type ChangeTaskActiveStatusType = PayloadAction<{ todoListID: string; taskID: string; isActive: boolean }>;
+type ChangeTaskActiveStatusType = PayloadAction<{ todoListID: string; taskID: string }>;
 type UpdateTaskArgType = { todoListID: string; taskID: string; updateModel: UpdateModelType };
 type CreateTaskArgType = { todoListID: string; title: { title: string } };
 type DeleteTaskArgType = { todoListID: string; taskID: string };

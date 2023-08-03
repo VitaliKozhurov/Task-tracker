@@ -17,9 +17,9 @@ export const Tasks = () => {
 
     return (
         <div className={s.todoItem}>
+            <h2 className={s.todoTitle}>{activeTodoList ? `Tasks for ${activeTodoList.title}` : 'Tasks'}</h2>
             {activeTodoList && (
                 <>
-                    <h2 className={s.todoTitle}>{`Tasks for ${activeTodoList.title}`}</h2>
                     <div className={s.taskCreator}>
                         {<AddItemForm title={'Tasks'} callback={addTask} />}
                         {tasks.map((task) => (

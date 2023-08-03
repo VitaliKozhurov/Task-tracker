@@ -22,7 +22,7 @@ export class TasksAPI {
             ResponseType<TaskResponseType>,
             AxiosResponse<ResponseType<TaskResponseType>>,
             UpdateTaskModelType
-        >(`todo-lists/${todoListID}/${taskID}`, data);
+        >(`todo-lists/${todoListID}/tasks/${taskID}`, data);
     }
 
     static deleteTask(todoListID: string, taskID: string) {
@@ -39,7 +39,7 @@ export type TaskServerType = {
     status: TaskStatuses;
     priority: TaskPriorities;
     startDate: string;
-    deadline: string;
+    deadline: string | Date;
     id: string;
     todoListId: string;
     order: number;
@@ -52,7 +52,7 @@ export type UpdateTaskModelType = {
     status: TaskStatuses;
     priority: TaskPriorities;
     startDate: string;
-    deadline: string;
+    deadline: string | Date;
 };
 type GetTasksResponseType = {
     items: TaskServerType[];

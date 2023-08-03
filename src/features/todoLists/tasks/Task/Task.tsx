@@ -11,7 +11,7 @@ import { tasksActions, tasksThunks, TaskType } from 'features/todoLists/tasks/ta
 export const Task: FC<TaskType> = ({ id, title, deadline, priority, addedDate, todoListId, isActive }) => {
     const dispatch = useAppDispatch();
     const setActiveTaskStatus = () => {
-        dispatch(tasksActions.changeTaskActiveStatus({ todoListID: todoListId, taskID: id, isActive: true }));
+        dispatch(tasksActions.changeTaskActiveStatus({ todoListID: todoListId, taskID: id }));
     };
     const removeTask = () => {
         dispatch(tasksThunks.deleteTask({ todoListID: todoListId, taskID: id }));

@@ -4,7 +4,7 @@ import { AiOutlineFieldTime } from 'react-icons/ai';
 import moment from 'moment';
 
 type DeadlinePropsType = {
-    deadline: string;
+    deadline: string | Date;
 };
 
 export const Deadline: FC<DeadlinePropsType> = ({ deadline }) => {
