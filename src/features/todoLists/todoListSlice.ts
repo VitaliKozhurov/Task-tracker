@@ -13,7 +13,7 @@ export const FilterType = {
 
 const slice = createSlice({
     name: 'todoList',
-    initialState: [] as TodoListsType[],
+    initialState: [] as TodoListType[],
     reducers: {
         changeTodoListFilter: (state, action: ChangeTodoListFilterType) => {
             const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
@@ -31,6 +31,17 @@ const slice = createSlice({
             return state.map((todo) =>
                 todo.id === action.payload.todoListID ? { ...todo, isActive: true } : { ...todo, isActive: false },
             );
+        },
+        changeTodoListOrder: (state, action: ChangeTodoListOrderType) => {
+            return state.map((todo) => {
+                if (todo.id === action.payload.dropTodo.id) {
+                    return { ...todo, order: action.payload.dragTodo.order };
+                }
+                if (todo.id === action.payload.dragTodo.id) {
+                    return { ...todo, order: action.payload.dropTodo.order };
+                }
+                return todo;
+            });
         },
     },
     extraReducers: (builder) => {
@@ -118,6 +129,13 @@ export const deleteTodoList = createAppAsyncThunk<DeleteTodoListType, DeleteTodo
                 );
                 return rejectWithValue(null);
             }
+        }).finally(() => {
+            dispatch(
+                todoListsActions.changeTodoListEntityStatus({
+                    todoListID: arg.todoListID,
+                    entityStatus: EntityStatus.IDLE,
+                }),
+            );
         });
     },
 );
@@ -158,11 +176,12 @@ export const todoListsThunks = { getTodoLists, createTodoList, deleteTodoList, u
 // types
 type FilterValueType = (typeof FilterType)[keyof typeof FilterType];
 export type TodoListsInitialStateType = ReturnType<typeof slice.getInitialState>;
-export type TodoListsType = TodoListServerType & { filter: FilterValueType } & { entityStatus: EntityStatusType } & {
+export type TodoListType = TodoListServerType & { filter: FilterValueType } & { entityStatus: EntityStatusType } & {
     isActive: boolean;
 };
 type ChangeTodoListFilterType = PayloadAction<{ todoListID: string; filter: FilterValueType }>;
 type ChangeTodoListEntityStatusType = PayloadAction<{ todoListID: string; entityStatus: EntityStatusType }>;
 type ChangeTodoListActiveStatusType = PayloadAction<{ todoListID: string; activeStatus: boolean }>;
+type ChangeTodoListOrderType = PayloadAction<{ dragTodo: TodoListType; dropTodo: TodoListType }>;
 type DeleteTodoListType = { todoListID: string };
 type updateTodoListTitleType = { todoListID: string; title: { title: string } };

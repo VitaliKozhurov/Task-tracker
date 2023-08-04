@@ -9,11 +9,13 @@
   align-items: center;
   position: relative;
 
+
   .title {
     color: #fff;
     font-size: 18px;
     font-weight: 600;
     width: 80%;
+    cursor: grab;
   }
 
   .icons {
@@ -42,4 +44,9 @@
 
 .isActive {
   background: rgba(32, 136, 176, 0.4);
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
