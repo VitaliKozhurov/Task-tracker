@@ -4,6 +4,8 @@ import { tasksThunks, TaskType } from 'features/todoLists/tasks/taskSlice';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useAppDispatch } from 'common/hooks/hooks';
+import { PrioritySelector } from 'components/PrioritySelector/PrioritySelector';
+import { TaskPriorities } from 'common/enums';
 
 export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
     const dispatch = useAppDispatch();
@@ -30,6 +32,10 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
         setTaskState({ ...taskState, description: e.currentTarget.value });
     };
 
+    const onChangePriority = (newPriority: TaskPriorities) => {
+        setTaskState({ ...taskState, priority: newPriority });
+    };
+
     const updateTaskProperties = () => {
         dispatch(tasksThunks.updateTask({ todoListID: task.todoListId, taskID: task.id, updateModel: taskState }));
     };
@@ -47,6 +53,7 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
                     <h3>Change task description</h3>
                     <textarea value={taskState.description} onChange={onChangeDescription} />
                 </div>
+
                 <div className={s.date}>
                     <h3>Change task deadline</h3>
                     <DatePicker
@@ -56,9 +63,12 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
                         dateFormat="dd-MM-yyyy"
                     />
                 </div>
-            </div>
 
-            <button onClick={updateTaskProperties}>Save</button>
+                <PrioritySelector currentPriority={taskState.priority} callback={onChangePriority} />
+            </div>
+            <button className={s.btn} onClick={updateTaskProperties}>
+                Save task info
+            </button>
         </div>
     );
 };

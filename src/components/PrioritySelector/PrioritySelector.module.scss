@@ -1,0 +1,54 @@
+.selector {
+  width: 300px;
+  margin: 0 auto;
+  position: relative;
+
+
+  .selectedItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+
+
+    .selectControl {
+      display: flex;
+      align-items: center;
+
+      .control {
+        cursor: pointer;
+        margin-left: 15px;
+      }
+    }
+
+  }
+
+  .selectList{
+    border-radius: 5px;
+    overflow: hidden;
+    position: absolute;
+    top:50px;
+    right:0;
+
+    .item{
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      background-color: #fff;
+      span{
+        margin-right: 15px;
+      }
+
+      &:hover{
+        cursor: pointer;
+        background-color: #20df7f;
+      }
+    }
+
+  }
+}
