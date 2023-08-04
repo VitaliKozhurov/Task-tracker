@@ -8,9 +8,10 @@ type DeadlinePropsType = {
 };
 
 export const Deadline: FC<DeadlinePropsType> = ({ deadline }) => {
+    const deadlineStyle = s.deadline + (moment(new Date()) > moment(deadline) ? ' ' + s.isEndTime : '');
     if (!!deadline) {
         return (
-            <div className={s.deadline}>
+            <div className={deadlineStyle}>
                 {<AiOutlineFieldTime />}
                 <span>{moment(deadline).format('MMMM Do YYYY')}</span>
             </div>

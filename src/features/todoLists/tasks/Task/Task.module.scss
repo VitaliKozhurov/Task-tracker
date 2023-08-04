@@ -9,6 +9,11 @@
   align-items: center;
   position: relative;
 
+  .checkBox{
+    transform: scale(1.5);
+    cursor: pointer;
+  }
+
   & input {
     margin-right: 20px;
   }
@@ -62,15 +67,19 @@
           font-size: 14px;
         }
       }
-
       .deadline{
         display: flex;
         align-items: center;
         color: #42ed50;
-        & span {
+         span {
           margin-left: 8px;
           font-size: 14px;
         }
+      }
+
+      .isEndTime {
+        color: #ff2600;
+        font-weight: 600;
       }
     }
   }
@@ -79,3 +88,5 @@
 .isActive {
   background: rgba(32, 136, 176, 0.4);
 }
+
+
