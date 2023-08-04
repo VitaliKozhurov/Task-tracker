@@ -1,0 +1,87 @@
+$green: #355070;
+$turquoise: #6d597a;
+$blue: #7f515b;
+$light-blue: #894d4f;
+$purple: #80604f;
+$red: #355070;
+
+.container {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: - 5px;
+}
+
+.progressBar {
+  height: 5px;
+  width: 100%;
+  background-image: linear-gradient(
+                  to right,
+                  $green,
+                  $turquoise,
+                  $blue,
+                  $light-blue,
+                  $purple,
+                  $red
+  );
+  animation: colorAnimation .5s infinite;
+}
+
+@keyframes colorAnimation {
+  0% {
+    background-image: linear-gradient(
+                    to right,
+                    $green,
+                    $turquoise,
+                    $blue,
+                    $light-blue,
+                    $purple,
+                    $red
+    );
+  }
+  20% {
+    background-image: linear-gradient(
+                    to right,
+                    $turquoise,
+                    $blue,
+                    $light-blue,
+                    $purple,
+                    $red,
+                    $green
+    );
+  }
+  40% {
+    background-image: linear-gradient(
+                    to right,
+                    $blue,
+                    $light-blue,
+                    $purple,
+                    $red,
+                    $green,
+                    $turquoise
+    );
+  }
+  60% {
+    background-image: linear-gradient(
+                    to right,
+                    $light-blue,
+                    $purple,
+                    $red,
+                    $green,
+                    $turquoise,
+                    $blue
+    );
+  }
+  100% {
+    background-image: linear-gradient(
+                    to right,
+                    $purple,
+                    $red,
+                    $green,
+                    $turquoise,
+                    $blue,
+                    $light-blue
+    );
+  }
+}

@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { PrioritySelector } from 'components/PrioritySelector/PrioritySelector';
 import { TaskPriorities } from 'common/enums';
+import { appActions } from 'app/appSlice';
 
 export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
     const dispatch = useAppDispatch();
@@ -37,6 +38,10 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
     };
 
     const updateTaskProperties = () => {
+        if (!taskState.title) {
+            dispatch(appActions.setAppError({ error: 'Task title is required!' }));
+            return;
+        }
         dispatch(tasksThunks.updateTask({ todoListID: task.todoListId, taskID: task.id, updateModel: taskState }));
     };
 
