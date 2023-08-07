@@ -10,14 +10,15 @@ export const TodoListsList = () => {
     const dispatch = useAppDispatch();
     const todoLists = useAppSelector(getTodoListsSelector);
     const [currentTodo, setCurrentTodo] = useState<null | TodoListType>(null);
+
     useEffect(() => {
         dispatch(todoListsThunks.getTodoLists());
     }, []);
+
     const addTodoList = (title: string) => {
         dispatch(todoListsThunks.createTodoList({ title }));
     };
-
-    const setStartedTodoList = (todo: TodoListType) => {
+    const setDraggableTodoList = (todo: TodoListType) => {
         setCurrentTodo(todo);
     };
 
@@ -40,7 +41,7 @@ export const TodoListsList = () => {
                             key={todo.id}
                             todo={todo}
                             currentTodo={currentTodo}
-                            setStartedTodoList={setStartedTodoList}
+                            setDraggableTodoList={setDraggableTodoList}
                         />
                     ))}
                 </div>

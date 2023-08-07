@@ -11,10 +11,10 @@ import { EntityStatus } from 'app/appSlice';
 type DragAndDropTodoListType = {
     todo: TodoListType;
     currentTodo: null | TodoListType;
-    setStartedTodoList: (todo: TodoListType) => void;
+    setDraggableTodoList: (todo: TodoListType) => void;
 };
 
-export const TodoList: FC<DragAndDropTodoListType> = React.memo(({ todo, currentTodo, setStartedTodoList }) => {
+export const TodoList: FC<DragAndDropTodoListType> = React.memo(({ todo, currentTodo, setDraggableTodoList }) => {
     const [editMode, setEditMode] = useState(false);
     const dispatch = useAppDispatch();
     const setActiveTodoListStatus = () => {
@@ -36,7 +36,7 @@ export const TodoList: FC<DragAndDropTodoListType> = React.memo(({ todo, current
     };
 
     const dragStartHandler = (e: DragEvent<HTMLDivElement>) => {
-        setStartedTodoList(todo);
+        setDraggableTodoList(todo);
     };
     const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {};
     const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {};
