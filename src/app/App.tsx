@@ -8,6 +8,7 @@ import { getAppInitializedStatusSelector } from 'app/app.selectors';
 import { appThunks } from 'app/appSlice';
 import { Header } from 'components/Header/Header';
 import { ErrorNotification } from 'components/ErrorNotification/ErrorNotification';
+import { MainPage } from 'features/MainPage/MainPage';
 
 const App = () => {
     const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ const App = () => {
         <div className="App">
             <Header />
             <Routes>
-                <Route path={''} element={<div>Hello</div>} />
+                <Route path={''} element={<MainPage />} />
                 <Route path={'/todolists'} element={<TodoLists />} />
                 <Route path={'/login'} element={<Login />} />
             </Routes>

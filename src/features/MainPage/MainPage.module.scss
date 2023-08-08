@@ -1,0 +1,31 @@
+.body{
+  padding: 80px 0;
+
+  .greeting{
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .text{
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .link{
+    padding: 10px 40px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #ec0832;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #b00020;
+    }
+  }
+
+}
+
