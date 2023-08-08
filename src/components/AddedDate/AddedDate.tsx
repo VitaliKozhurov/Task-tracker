@@ -4,7 +4,7 @@ import { BsCalendar3 } from 'react-icons/bs';
 import moment from 'moment/moment';
 
 type AddedDatePropsType = {
-    addedDate: string;
+    addedDate: string | Date;
 };
 
 export const AddedDate: FC<AddedDatePropsType> = ({ addedDate }) => {

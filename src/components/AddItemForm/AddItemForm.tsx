@@ -46,8 +46,8 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
                     <Button callback={onAddItemHandler} style={s.btnStyle}>
                         <MdAssignmentAdd />
                     </Button>
-                    <div className={s.error}>{error}</div>
                 </div>
+                <div className={s.error}>{error}</div>
             </div>
         </>
     );

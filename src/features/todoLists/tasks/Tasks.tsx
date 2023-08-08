@@ -23,7 +23,7 @@ export const Tasks = () => {
                     <div className={s.taskCreator}>
                         {<AddItemForm title={'Tasks'} callback={addTask} />}
                         {tasks.map((task) => (
-                            <Task {...task} />
+                            <Task key={task.id} {...task} />
                         ))}
                     </div>
                 </>

@@ -162,7 +162,6 @@ export const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgTy
                 deadline: task.deadline,
                 ...arg.updateModel,
             };
-
             const result = await TasksAPI.updateTask(arg.todoListID, arg.taskID, updatedTask);
             if (result.data.resultCode === ResultCode.SUCCESS) {
                 dispatch(appActions.setAppStatus({ status: EntityStatus.SUCCEEDED }));

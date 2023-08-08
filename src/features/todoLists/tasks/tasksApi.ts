@@ -43,7 +43,7 @@ export type TaskServerType = {
     id: string;
     todoListId: string;
     order: number;
-    addedDate: string;
+    addedDate: string | Date;
 };
 
 export type UpdateTaskModelType = {

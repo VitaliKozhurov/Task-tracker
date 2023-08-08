@@ -8,8 +8,19 @@ import { RemoveIcon } from 'components/RemoveIcon/RemoveIcon';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { tasksActions, tasksThunks, TaskType } from 'features/todoLists/tasks/taskSlice';
 import { TaskStatuses } from 'common/enums';
+import { EntityStatus } from 'app/appSlice';
 
-export const Task: FC<TaskType> = ({ id, title, deadline, priority, addedDate, todoListId, isActive, status }) => {
+export const Task: FC<TaskType> = ({
+    id,
+    title,
+    deadline,
+    priority,
+    addedDate,
+    todoListId,
+    isActive,
+    status,
+    entityStatus,
+}) => {
     const dispatch = useAppDispatch();
     const setActiveTaskStatus = () => {
         dispatch(tasksActions.changeTaskActiveStatus({ todoListID: todoListId, taskID: id }));
@@ -21,8 +32,12 @@ export const Task: FC<TaskType> = ({ id, title, deadline, priority, addedDate, t
     const removeTask = () => {
         dispatch(tasksThunks.deleteTask({ todoListID: todoListId, taskID: id }));
     };
+    const taskClassName =
+        s.taskBody +
+        (isActive ? ' ' + s.isActive : '') +
+        (entityStatus === EntityStatus.LOADING ? ' ' + s.disabled : '');
     return (
-        <div className={s.taskBody + (isActive ? ' ' + s.isActive : '')}>
+        <div className={taskClassName}>
             <input
                 className={s.checkBox}
                 checked={status === TaskStatuses.Completed}

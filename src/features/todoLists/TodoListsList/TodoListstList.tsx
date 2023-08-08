@@ -24,12 +24,10 @@ export const TodoListsList = () => {
 
     let sortedTodoLists: TodoListType[];
     if (todoLists.length) {
-        console.log(todoLists);
         sortedTodoLists = [...todoLists].sort((a, b) => (a.order > b.order ? 1 : -1));
     } else {
         sortedTodoLists = todoLists;
     }
-    console.log(sortedTodoLists);
     return (
         <>
             <div className={s.addTodoItem}>

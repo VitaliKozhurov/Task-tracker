@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { PrioritySelector } from 'components/PrioritySelector/PrioritySelector';
 import { TaskPriorities } from 'common/enums';
-import { appActions } from 'app/appSlice';
+import { appActions, EntityStatus } from 'app/appSlice';
 
 export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
     const dispatch = useAppDispatch();
@@ -16,12 +16,13 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
         priority: task.priority,
         deadline: task.deadline,
     });
+
     useEffect(() => {
         setTaskState(task);
     }, [task]);
 
     const onDeadLineChange = (deadline: Date) => {
-        const newTaskState = { ...taskState, deadline: deadline };
+        const newTaskState = { ...taskState, deadline: deadline.toISOString() };
         setTaskState(newTaskState);
     };
 
@@ -56,7 +57,10 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
 
                 <div className={s.text}>
                     <h3>Change task description</h3>
-                    <textarea value={taskState.description} onChange={onChangeDescription} />
+                    <textarea
+                        value={taskState.description === null ? '' : taskState.description}
+                        onChange={onChangeDescription}
+                    />
                 </div>
 
                 <div className={s.date}>
@@ -69,9 +73,16 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
                     />
                 </div>
 
-                <PrioritySelector currentPriority={taskState.priority} callback={onChangePriority} />
+                <div>
+                    <h3>Change task priority</h3>
+                    <PrioritySelector currentPriority={taskState.priority} callback={onChangePriority} />
+                </div>
             </div>
-            <button className={s.btn} onClick={updateTaskProperties}>
+            <button
+                className={s.btn}
+                onClick={updateTaskProperties}
+                disabled={task.entityStatus === EntityStatus.LOADING}
+            >
                 Save task info
             </button>
         </div>

@@ -38,12 +38,15 @@ export const TodoList: FC<DragAndDropTodoListType> = React.memo(({ todo, current
     const dragStartHandler = (e: DragEvent<HTMLDivElement>) => {
         setDraggableTodoList(todo);
     };
-    const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {};
-    const dragLeaveHandler = (e: DragEvent<HTMLDivElement>) => {};
+    const dragEndHandler = (e: DragEvent<HTMLDivElement>) => {
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+    };
     const dragOverHandler = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
+        e.currentTarget.style.background = 'rgba(66,237,80,0.4)';
     };
     const dropHandler = (e: DragEvent<HTMLDivElement>) => {
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
         if (currentTodo) {
             dispatch(todoListsActions.changeTodoListOrder({ dragTodo: currentTodo, dropTodo: todo }));
         }
@@ -60,7 +63,7 @@ export const TodoList: FC<DragAndDropTodoListType> = React.memo(({ todo, current
             draggable={true}
             onDragStart={dragStartHandler}
             onDragEnd={dragEndHandler}
-            onDragLeave={dragLeaveHandler}
+            onDragLeave={dragEndHandler}
             onDragOver={dragOverHandler}
             onDrop={dropHandler}
         >

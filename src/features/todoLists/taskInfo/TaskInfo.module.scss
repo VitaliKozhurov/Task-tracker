@@ -69,6 +69,10 @@
     font-weight: 600;
     margin-top: 50px;
     border-radius: 5px;
+
+    &:disabled{
+      opacity: 0.5;
+    }
   }
 
 }
