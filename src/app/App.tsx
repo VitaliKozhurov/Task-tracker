@@ -1,10 +1,10 @@
 import React from 'react';
 import 'app/App.css';
 import { Route, Routes } from 'react-router-dom';
-import { Login } from 'features/login/Login';
-import { TodoLists } from 'features/todoLists/TodoLists';
-import { MainPage } from 'features/mainPage/MainPage';
-import { Layout } from 'features/layout/Layout';
+import { Login } from 'features/login/ui/Login';
+import { TodoLists } from 'features/todolists/TodoLists';
+import { MainPage } from 'features/mainPage/ui/MainPage';
+import { Layout } from 'app/layout/Layout';
 import { RequireAuth } from 'utils/RequireAuth';
 
 const App = () => {

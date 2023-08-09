@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createAppAsyncThunk, thunkTryCatch } from 'common/utils';
-import { AuthAPI } from 'features/login/authApi';
+import { AuthApi } from 'features/login/api/auth-api';
 import { ResultCode } from 'common/api/api';
-import { authThunks } from 'features/login/authSlice';
+import { authThunks } from 'features/login/model/auth-slice';
 
 export const EntityStatus = {
     IDLE: 'idle',
@@ -34,7 +34,7 @@ const slice = createSlice({
 const authMe = createAppAsyncThunk<void, void>('app/authMe', (_, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     return thunkTryCatch(thunkAPI, async () => {
-        const result = await AuthAPI.authMe();
+        const result = await AuthApi.authMe();
         if (result.data.resultCode === ResultCode.SUCCESS) {
             // Вопрос как можно по другому диспатчить эту санку !!!!!
             dispatch({ type: authThunks.login.fulfilled.type, payload: { isLoggedIn: true } });
