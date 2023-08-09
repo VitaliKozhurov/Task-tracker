@@ -1,14 +1,11 @@
 import React, { ChangeEvent, FC } from 'react';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 import s from 'features/todolists/tasks-list/ui/task/Task.module.scss';
-import { Priority } from 'common/components/Priority/Priority';
-import { AddedDate } from 'common/components/AddedDate/AddedDate';
-import { Deadline } from 'common/components/Deadline/Deadline';
-import { RemoveIcon } from 'common/components/RemoveIcon/RemoveIcon';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { tasksActions, tasksThunks, TaskType } from 'features/todolists/tasks-list/model/task-slice';
 import { TaskStatuses } from 'common/enums';
 import { EntityStatus } from 'app/appSlice';
+import { AddedDate, Deadline, Priority, RemoveIcon } from 'common/components';
 
 export const Task: FC<TaskType> = ({
     id,

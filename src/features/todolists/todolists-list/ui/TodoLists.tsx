@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import s from 'features/todolists/todolists-list/ui/TodoLists.module.scss';
 import { AddItemForm } from 'common/components/AddItemForm/AddItemForm';
-import { TodoList } from 'features/todolists/todolists-list/ui/todoList/TodoList';
 import { useAppDispatch, useAppSelector } from 'common/hooks/hooks';
 import { getTodoListsSelector } from 'features/todolists/todolists-list/model/todo-lists-selectors';
 import { todoListsThunks, TodoListType } from 'features/todolists/todolists-list/model/todo-lists-slice';
+import { TodoList } from './todoList/TodoList';
 
 export const TodoListsList = () => {
     const dispatch = useAppDispatch();
     const todoLists = useAppSelector(getTodoListsSelector);
-    const [currentTodo, setCurrentTodo] = useState<null | TodoListType>(null);
+    const [draggableTodo, setDraggableTodo] = useState<null | TodoListType>(null);
 
     useEffect(() => {
         dispatch(todoListsThunks.getTodoLists());
@@ -19,15 +19,11 @@ export const TodoListsList = () => {
         dispatch(todoListsThunks.createTodoList({ title }));
     };
     const setDraggableTodoList = (todo: TodoListType) => {
-        setCurrentTodo(todo);
+        setDraggableTodo(todo);
     };
 
-    let sortedTodoLists: TodoListType[];
-    if (todoLists.length) {
-        sortedTodoLists = [...todoLists].sort((a, b) => (a.order > b.order ? 1 : -1));
-    } else {
-        sortedTodoLists = todoLists;
-    }
+    let sortedTodoLists = todoLists.length ? [...todoLists].sort((a, b) => (a.order > b.order ? 1 : -1)) : todoLists;
+
     return (
         <>
             <div className={s.addTodoItem}>
@@ -38,7 +34,7 @@ export const TodoListsList = () => {
                         <TodoList
                             key={todo.id}
                             todo={todo}
-                            currentTodo={currentTodo}
+                            draggableTodo={draggableTodo}
                             setDraggableTodoList={setDraggableTodoList}
                         />
                     ))}
