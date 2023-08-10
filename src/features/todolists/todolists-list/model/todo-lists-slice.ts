@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { appActions, EntityStatus, EntityStatusType } from 'app/model/app-slice';
+import { EntityStatus, EntityStatusType } from 'app/model/app-slice';
 import { TodoListsApi, TodoListServerType } from 'features/todolists/todolists-list/api/todo-lists-api';
-import { createAppAsyncThunk, handleServerAppError, thunkTryCatch } from 'common/utils';
+import { createAppAsyncThunk } from 'common/utils';
 import { ResultCode } from 'common/api/api';
 import { tasksThunks } from 'features/todolists/tasks-list/model/task-slice';
 
@@ -19,12 +19,6 @@ const slice = createSlice({
             const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
             if (index !== -1) {
                 state[index].filter = action.payload.filter;
-            }
-        },
-        changeTodoListEntityStatus: (state, action: ChangeTodoListEntityStatusType) => {
-            const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
-            if (index !== -1) {
-                state[index].entityStatus = action.payload.entityStatus;
             }
         },
         changeTodoListActiveStatus: (state, action: ChangeTodoListActiveStatusType) => {
@@ -73,12 +67,44 @@ const slice = createSlice({
                 if (index !== -1) {
                     state[index].title = action.payload.title.title;
                 }
-            });
+            })
+            .addMatcher(
+                (action) => {
+                    return (
+                        action.type.endsWith('deleteTodoList/pending') ||
+                        action.type.endsWith('changeTodoListTitle/pending')
+                    );
+                },
+                (state, action) => {
+                    debugger;
+                    const todoListID = action.meta.arg.todoListID;
+                    const index = state.findIndex((todo) => todo.id === todoListID);
+                    if (index !== -1) {
+                        state[index].entityStatus = EntityStatus.LOADING;
+                    }
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return (
+                        action.type.endsWith('deleteTodoList/rejected') ||
+                        action.type.endsWith('changeTodoListTitle/fulfilled') ||
+                        action.type.endsWith('changeTodoListTitle/rejected')
+                    );
+                },
+                (state, action) => {
+                    const todoListID = action.meta.arg.todoListID;
+                    const index = state.findIndex((todo) => todo.id === todoListID);
+                    if (index !== -1) {
+                        state[index].entityStatus = EntityStatus.IDLE;
+                    }
+                },
+            );
     },
 });
 
 export const getTodoLists = createAppAsyncThunk<{ todoLists: TodoListServerType[] }>(
-    'todoLists1/getTodoLists',
+    'todoList/getTodoLists',
     async (_, { dispatch }) => {
         const result = await TodoListsApi.getTodoLists();
         result.data.forEach((todo) => dispatch(tasksThunks.getTasks({ todoListID: todo.id })));
@@ -87,7 +113,7 @@ export const getTodoLists = createAppAsyncThunk<{ todoLists: TodoListServerType[
 );
 
 export const createTodoList = createAppAsyncThunk<{ todoList: TodoListServerType }, { title: string }>(
-    'todoLists1/createTodoList',
+    'todoList/createTodoList',
     async (arg, { rejectWithValue }) => {
         const result = await TodoListsApi.createTodoList(arg);
         if (result.data.resultCode === ResultCode.SUCCESS) {
@@ -99,7 +125,7 @@ export const createTodoList = createAppAsyncThunk<{ todoList: TodoListServerType
 );
 
 export const deleteTodoList = createAppAsyncThunk<DeleteTodoListType, DeleteTodoListType>(
-    'todoLists1/deleteTodoList',
+    'todoList/deleteTodoList',
     async (arg, { rejectWithValue }) => {
         const result = await TodoListsApi.deleteTodoList(arg.todoListID);
         if (result.data.resultCode === ResultCode.SUCCESS) {
@@ -107,34 +133,11 @@ export const deleteTodoList = createAppAsyncThunk<DeleteTodoListType, DeleteTodo
         } else {
             return rejectWithValue({ data: result.data, showGlobalError: true });
         }
-        // // dispatch(
-        // //     todoListsActions.changeTodoListEntityStatus({
-        // //         todoListID: arg.todoListID,
-        // //         entityStatus: EntityStatus.LOADING,
-        // //     }),
-        // // );
-        // else {
-        //     // dispatch(
-        //     //     todoListsActions.changeTodoListEntityStatus({
-        //     //         todoListID: arg.todoListID,
-        //     //         entityStatus: EntityStatus.FAILED,
-        //     //     }),
-        //     // );
-        //     return rejectWithValue(null);
-        // }
-        // /* .finally(() => {
-        //     dispatch(
-        //         todoListsActions.changeTodoListEntityStatus({
-        //             todoListID: arg.todoListID,
-        //             entityStatus: EntityStatus.IDLE,
-        //         }),
-        //     );
-        // });*/
     },
 );
 
 export const updateTodoListTitle = createAppAsyncThunk<updateTodoListTitleType, updateTodoListTitleType>(
-    'todoLists1/changeTodoListTitle',
+    'todoList/changeTodoListTitle',
     async (arg, { rejectWithValue }) => {
         const result = await TodoListsApi.updateTodoListTitle(arg.todoListID, arg.title);
         if (result.data.resultCode === ResultCode.SUCCESS) {
@@ -142,21 +145,6 @@ export const updateTodoListTitle = createAppAsyncThunk<updateTodoListTitleType, 
         } else {
             return rejectWithValue({ data: result.data, showGlobalError: true });
         }
-
-        /* dispatch(
-            todoListsActions.changeTodoListEntityStatus({
-                todoListID: arg.todoListID,
-                entityStatus: EntityStatus.LOADING,
-            }),
-        );
-           .finally(() => {
-            dispatch(
-                todoListsActions.changeTodoListEntityStatus({
-                    todoListID: arg.todoListID,
-                    entityStatus: EntityStatus.IDLE,
-                }),
-            );
-        });*/
     },
 );
 
@@ -171,7 +159,6 @@ export type TodoListType = TodoListServerType & { filter: FilterValueType } & { 
     isActive: boolean;
 };
 type ChangeTodoListFilterType = PayloadAction<{ todoListID: string; filter: FilterValueType }>;
-type ChangeTodoListEntityStatusType = PayloadAction<{ todoListID: string; entityStatus: EntityStatusType }>;
 type ChangeTodoListActiveStatusType = PayloadAction<{ todoListID: string; activeStatus: boolean }>;
 type ChangeTodoListOrderType = PayloadAction<{ dragTodo: TodoListType; dropTodo: TodoListType }>;
 type DeleteTodoListType = { todoListID: string };

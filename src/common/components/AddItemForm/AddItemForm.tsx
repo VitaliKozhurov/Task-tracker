@@ -1,8 +1,7 @@
-import React, { KeyboardEvent, FC, useState, ChangeEvent } from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 import s from 'common/components/AddItemForm/AddItemForm.module.scss';
 import { MdAssignmentAdd } from 'react-icons/md';
 import { Button } from 'common/components/Button/Button';
-import { logout } from 'features/login/model/auth-slice';
 
 type AddItemFormPropsType = {
     title: string;
@@ -22,9 +21,8 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
             callback(itemTitle)
                 .then((res) => setTitle(''))
                 .catch((err) => {
-                    // const error = err.data.messages.length ? err.data.messages[0].split('.')[0] : 'Error ❌';
-                    // setError(error);
-                    setError('Error');
+                    const error = err.data.messages.length ? err.data.messages[0].split('.')[0] : 'Error ❌';
+                    setError(error);
                 });
         } else {
             setError('Title can not be empty');
@@ -41,19 +39,21 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
         <>
             <div className={s.body}>
                 <h2 className={s.formTitle}>Add {title}</h2>
-                <div className={s.formBody + (itemTitle.length ? ' ' + s.successInput : '')}>
-                    <input
-                        className={s.input}
-                        type={'text'}
-                        value={itemTitle}
-                        onChange={onChangeTitleHandler}
-                        onKeyUp={onPressEnterHandler}
-                    />
-                    <Button callback={onAddItemHandler} style={s.btnStyle}>
-                        <MdAssignmentAdd />
-                    </Button>
+                <div className={s.form}>
+                    <div className={s.formBody + (itemTitle.length ? ' ' + s.successInput : '')}>
+                        <input
+                            className={s.input}
+                            type={'text'}
+                            value={itemTitle}
+                            onChange={onChangeTitleHandler}
+                            onKeyUp={onPressEnterHandler}
+                        />
+                        <Button callback={onAddItemHandler} style={s.btnStyle}>
+                            <MdAssignmentAdd />
+                        </Button>
+                    </div>
+                    <div className={s.error}>{error}</div>
                 </div>
-                <div className={s.error}>{error}</div>
             </div>
         </>
     );

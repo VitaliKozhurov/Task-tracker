@@ -1,8 +1,7 @@
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
-import { createAppAsyncThunk, thunkTryCatch } from 'common/utils';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAppAsyncThunk } from 'common/utils';
 import { AuthApi } from 'features/login/api/auth-api';
 import { ResultCode } from 'common/api/api';
-import { authThunks } from 'features/login/model/auth-slice';
 
 export const EntityStatus = {
     IDLE: 'idle',
@@ -35,7 +34,7 @@ const slice = createSlice({
                 (action) => {
                     return action.type.endsWith('/pending');
                 },
-                (state, action) => {
+                (state) => {
                     state.status = EntityStatus.LOADING;
                 },
             )
@@ -43,7 +42,7 @@ const slice = createSlice({
                 (action) => {
                     return action.type.endsWith('/fulfilled');
                 },
-                (state, action) => {
+                (state) => {
                     state.status = EntityStatus.IDLE;
                 },
             )
@@ -53,7 +52,6 @@ const slice = createSlice({
                 },
                 // !!! Тиризация для action
                 (state, action) => {
-                    console.log(action);
                     if (action.payload) {
                         // Сюда попадают ошибки, которые мы возвращаем в rejectWithValue
                         if (action.payload.showGlobalError) {
@@ -65,22 +63,25 @@ const slice = createSlice({
                         // Сюда попадают ошибки при выполнени кода, не связаны с запросами на сервер
                         state.error = action.error.message ? action.error.message : 'Some error occurred';
                     }
+                    state.status = EntityStatus.IDLE;
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('authMe/fulfilled') || action.type.endsWith('authMe/rejected');
+                },
+                (state) => {
+                    state.isInitialized = true;
                 },
             );
     },
 });
 
-const authMe = createAppAsyncThunk<void, void>('app/authMe', (_, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
-    return thunkTryCatch(thunkAPI, async () => {
-        const result = await AuthApi.authMe();
-        if (result.data.resultCode === ResultCode.SUCCESS) {
-            // Вопрос как можно по другому диспатчить эту санку !!!!!
-            dispatch({ type: authThunks.login.fulfilled.type, payload: { isLoggedIn: true } });
-        } else {
-            return rejectWithValue(null);
-        }
-    }).finally(() => dispatch(appActions.setAppInitialized({ isInitialized: true })));
+const authMe = createAppAsyncThunk<void, void>('app/authMe', async (_, { rejectWithValue }) => {
+    const result = await AuthApi.authMe();
+    if (result.data.resultCode !== ResultCode.SUCCESS) {
+        return rejectWithValue({ data: result.data, showGlobalError: true });
+    }
 });
 
 export const appReducer = slice.reducer;

@@ -9,41 +9,45 @@
     color: #fff;
     margin-bottom: 20px;
   }
-
-  .formBody {
-    display: flex;
-    justify-content: space-between;
+  .form{
     position: relative;
-    border-radius: 5px;
-    overflow: hidden;
-    border: solid 3px #fff;
     margin-bottom: 20px;
+    .formBody {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      border-radius: 5px;
+      overflow: hidden;
+      border: solid 3px #fff;
 
-    .input {
-      width: 100%;
-      padding: 10px 45px 10px 30px;
-      background: #fff;
+      .input {
+        width: 100%;
+        padding: 10px 45px 10px 30px;
+        background: #fff;
+      }
+
+      button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
     }
 
-    button {
+    .error {
       position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
+      font-weight: 600;
+      top: 47px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ec0832;
+      font-size: 16px;
+      width: 100%;
     }
   }
 
-  .error {
-    position: absolute;
-    font-weight: 600;
-    bottom: -25px;
 
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ec0832;
-    font-size: 18px;
-    width: 100%;
-  }
+
 
   .successInput{
     border-radius: 5px;
