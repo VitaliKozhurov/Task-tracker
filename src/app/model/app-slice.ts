@@ -52,6 +52,10 @@ const slice = createSlice({
                 },
                 // !!! Тиризация для action
                 (state, action) => {
+                    if (action.type === 'app/authMe/rejected') {
+                        state.status = EntityStatus.IDLE;
+                        return;
+                    }
                     if (action.payload) {
                         // Сюда попадают ошибки, которые мы возвращаем в rejectWithValue
                         if (action.payload.showGlobalError) {

@@ -3,6 +3,7 @@ import { useAppSelector, useLogin } from 'common/hooks/hooks';
 import { Navigate } from 'react-router-dom';
 import { getAuthLoggedStatusSelector } from 'features/login/model/auth-selectors';
 import s from 'features/login/ui/Login.module.scss';
+import { IoArrowForwardCircleOutline } from 'react-icons/io5';
 
 const getInputClassName = (error: string | undefined, touched: boolean | undefined) => {
     return (
@@ -20,6 +21,8 @@ export const Login = () => {
     if (isLoggedIn) {
         return <Navigate to={'/'} />;
     }
+    const isDisableButton = !!Object.keys(formik.errors).length || formik.isSubmitting;
+
     return (
         <div className={s.formBody}>
             <div className={s.loginHeader}>Sign In</div>
@@ -57,8 +60,11 @@ export const Login = () => {
                     <label htmlFor={'login'} className={s.loginLabelCheckBox}></label>
                     <span>Remember me</span>
                 </div>
-                <button type={'submit'} className={s.loginButton}>
+                <button type={'submit'} className={s.loginButton} disabled={isDisableButton}>
                     Sign In
+                    <span className={s.arrow}>
+                        <IoArrowForwardCircleOutline />
+                    </span>
                 </button>
             </form>
         </div>

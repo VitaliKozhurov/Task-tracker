@@ -111,6 +111,33 @@
       border: none;
       cursor: pointer;
       margin: 20px 0;
+      position: relative;
+
+      .arrow {
+        font-size: 20px;
+        display: inline-flex;
+        align-items: center;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: all .3s;
+      }
+
+      &:hover .arrow {
+        opacity: 1;
+        right: 80px;
+      }
+
+      &:disabled {
+        opacity: .5;
+        cursor: auto;
+      }
+
+      &:hover:disabled .arrow {
+      opacity: 0;
+      }
     }
   }
 }
