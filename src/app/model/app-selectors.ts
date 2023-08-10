@@ -1,4 +1,4 @@
-import { RootState } from 'app/store';
+import { RootState } from 'app/model/store';
 
 export const getAppStatusSelector = (state: RootState) => state.app.status;
 export const getAppErrorSelector = (state: RootState) => state.app.error;

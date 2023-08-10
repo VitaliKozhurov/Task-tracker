@@ -1,6 +1,6 @@
-import { AppDispatch } from 'app/store';
+import { AppDispatch } from 'app/model/store';
 import { ResponseType } from 'common/api/api';
-import { appActions } from 'app/appSlice';
+import { appActions } from 'app/model/app-slice';
 
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: AppDispatch, showError: boolean = true) => {
     if (showError) {

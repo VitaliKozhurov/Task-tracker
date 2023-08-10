@@ -8,8 +8,8 @@ import { FiLogOut } from 'react-icons/fi';
 import { authThunks } from 'features/login/model/auth-slice';
 import moment from 'moment';
 import { ProgressBar } from 'common/components/ProgressBar/ProgressBar';
-import { getAppStatusSelector } from 'app/app.selectors';
-import { EntityStatus } from 'app/appSlice';
+import { getAppStatusSelector } from 'app/model/app-selectors';
+import { EntityStatus } from 'app/model/app-slice';
 
 export const Header = () => {
     const dispatch = useAppDispatch();

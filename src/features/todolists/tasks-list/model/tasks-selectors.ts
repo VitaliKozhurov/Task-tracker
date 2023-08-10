@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { RootState } from 'app/store';
+import { RootState } from 'app/model/store';
 
 const getTodoLists = (state: RootState) => state.todoLists;
 const getTasks = (state: RootState) => state.tasks;

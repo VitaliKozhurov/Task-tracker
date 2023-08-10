@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { PrioritySelector } from 'common/components/PrioritySelector/PrioritySelector';
 import { TaskPriorities } from 'common/enums';
-import { appActions, EntityStatus } from 'app/appSlice';
+import { appActions, EntityStatus } from 'app/model/app-slice';
 
 export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
     const dispatch = useAppDispatch();

@@ -3,8 +3,8 @@ import { Header } from 'common/components/Header/Header';
 import { Outlet } from 'react-router-dom';
 import { ErrorNotification } from 'common/components/ErrorNotification/ErrorNotification';
 import { useAppDispatch, useAppSelector } from 'common/hooks/hooks';
-import { getAppInitializedStatusSelector } from 'app/app.selectors';
-import { appThunks } from 'app/appSlice';
+import { getAppInitializedStatusSelector } from 'app/model/app-selectors';
+import { appThunks } from 'app/model/app-slice';
 
 export const Layout = () => {
     const dispatch = useAppDispatch();

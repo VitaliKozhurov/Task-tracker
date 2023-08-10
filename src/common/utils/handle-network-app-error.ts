@@ -1,6 +1,6 @@
-import { AppDispatch } from 'app/store';
+import { AppDispatch } from 'app/model/store';
 import axios, { AxiosError } from 'axios';
-import { appActions } from 'app/appSlice';
+import { appActions } from 'app/model/app-slice';
 
 export const handleNetworkAppError = (e: unknown, dispatch: AppDispatch) => {
     const err = e as Error | AxiosError<{ error: string }>;

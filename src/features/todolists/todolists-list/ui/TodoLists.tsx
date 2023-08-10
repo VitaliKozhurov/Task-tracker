@@ -16,7 +16,7 @@ export const TodoListsList = () => {
     }, []);
 
     const addTodoList = (title: string) => {
-        dispatch(todoListsThunks.createTodoList({ title }));
+        return dispatch(todoListsThunks.createTodoList({ title })).unwrap();
     };
     const setDraggableTodoList = (todo: TodoListType) => {
         setDraggableTodo(todo);

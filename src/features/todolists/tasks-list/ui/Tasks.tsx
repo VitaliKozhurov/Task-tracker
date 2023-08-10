@@ -12,7 +12,9 @@ export const Tasks = () => {
     const activeTodoList = useAppSelector(getActiveTodoList);
     const dispatch = useAppDispatch();
     const addTask = (title: string) => {
-        dispatch(tasksThunks.createTask({ title: { title }, todoListID: activeTodoList ? activeTodoList.id : '' }));
+        return dispatch(
+            tasksThunks.createTask({ title: { title }, todoListID: activeTodoList ? activeTodoList.id : '' }),
+        ).unwrap();
     };
 
     if (!activeTodoList) {

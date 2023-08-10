@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAppAsyncThunk, handleServerAppError, thunkTryCatch } from 'common/utils';
-import { appActions, EntityStatus } from 'app/appSlice';
+import { appActions, EntityStatus } from 'app/model/app-slice';
 import { AuthApi, LoginRequestType } from 'features/login/api/auth-api';
 import { ResultCode } from 'common/api/api';
 

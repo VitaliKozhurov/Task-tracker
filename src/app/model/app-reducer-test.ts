@@ -1,4 +1,4 @@
-import { appActions, AppInitialStateType, appReducer, appThunks, EntityStatus } from 'app/appSlice';
+import { appActions, AppInitialStateType, appReducer, appThunks, EntityStatus } from 'app/model/app-slice';
 
 describe('App reducer tests', () => {
     let appState: AppInitialStateType;

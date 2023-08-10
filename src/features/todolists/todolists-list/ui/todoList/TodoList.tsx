@@ -8,7 +8,7 @@ import {
     todoListsThunks,
     TodoListType,
 } from 'features/todolists/todolists-list/model/todo-lists-slice';
-import { EntityStatus } from 'app/appSlice';
+import { EntityStatus } from 'app/model/app-slice';
 import { DragAndDrop, EditInput, RemoveIcon } from 'common/components';
 
 type Props = {

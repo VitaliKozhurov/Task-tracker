@@ -1,3 +1,3 @@
-import { RootState } from 'app/store';
+import { RootState } from 'app/model/store';
 
 export const getAuthLoggedStatusSelector = (state: RootState) => state.auth.isLoggedIn;

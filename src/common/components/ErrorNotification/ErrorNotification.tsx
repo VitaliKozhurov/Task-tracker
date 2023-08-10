@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'common/hooks/hooks';
-import { getAppErrorSelector } from 'app/app.selectors';
+import { getAppErrorSelector } from 'app/model/app-selectors';
 import s from 'common/components/ErrorNotification/ErrorNotification.module.scss';
 import { SlClose } from 'react-icons/sl';
-import { appActions } from 'app/appSlice';
+import { appActions } from 'app/model/app-slice';
 
 export const ErrorNotification = () => {
     const error = useAppSelector(getAppErrorSelector);

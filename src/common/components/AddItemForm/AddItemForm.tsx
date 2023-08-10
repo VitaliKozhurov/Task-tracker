@@ -2,10 +2,11 @@ import React, { KeyboardEvent, FC, useState, ChangeEvent } from 'react';
 import s from 'common/components/AddItemForm/AddItemForm.module.scss';
 import { MdAssignmentAdd } from 'react-icons/md';
 import { Button } from 'common/components/Button/Button';
+import { logout } from 'features/login/model/auth-slice';
 
 type AddItemFormPropsType = {
     title: string;
-    callback: (title: string) => void;
+    callback: (title: string) => Promise<any>;
 };
 
 export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
@@ -17,11 +18,16 @@ export const AddItemForm: FC<AddItemFormPropsType> = ({ title, callback }) => {
     };
 
     const onAddItemHandler = () => {
-        if (!itemTitle.length) {
-            setError('Title can not be empty');
+        if (itemTitle.length) {
+            callback(itemTitle)
+                .then((res) => setTitle(''))
+                .catch((err) => {
+                    // const error = err.data.messages.length ? err.data.messages[0].split('.')[0] : 'Error ❌';
+                    // setError(error);
+                    setError('Error');
+                });
         } else {
-            callback(itemTitle);
-            setTitle('');
+            setError('Title can not be empty');
         }
     };
 

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { createAppAsyncThunk, thunkTryCatch } from 'common/utils';
 import { AuthApi } from 'features/login/api/auth-api';
 import { ResultCode } from 'common/api/api';
@@ -28,6 +28,45 @@ const slice = createSlice({
         setAppInitialized: (state, action: AppInitializedActionType) => {
             state.isInitialized = action.payload.isInitialized;
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('/pending');
+                },
+                (state, action) => {
+                    state.status = EntityStatus.LOADING;
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('/fulfilled');
+                },
+                (state, action) => {
+                    state.status = EntityStatus.IDLE;
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('/rejected');
+                },
+                // !!! Тиризация для action
+                (state, action) => {
+                    console.log(action);
+                    if (action.payload) {
+                        // Сюда попадают ошибки, которые мы возвращаем в rejectWithValue
+                        if (action.payload.showGlobalError) {
+                            state.error = action.payload.data.messages.length
+                                ? action.payload.data.messages[0]
+                                : 'Some error occurred';
+                        }
+                    } else {
+                        // Сюда попадают ошибки при выполнени кода, не связаны с запросами на сервер
+                        state.error = action.error.message ? action.error.message : 'Some error occurred';
+                    }
+                },
+            );
     },
 });
 

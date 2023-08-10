@@ -1,4 +1,4 @@
-import { AppDispatch, RootState } from 'app/store';
+import { AppDispatch, RootState } from 'app/model/store';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { authThunks } from 'features/login/model/auth-slice';

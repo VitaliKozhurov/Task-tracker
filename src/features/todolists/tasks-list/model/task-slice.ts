@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { todoListsActions, todoListsThunks } from 'features/todolists/todolists-list/model/todo-lists-slice';
 import { TasksApi, TaskServerType, UpdateTaskModelType } from 'features/todolists/tasks-list/api/tasks-api';
 import { createAppAsyncThunk, handleServerAppError, thunkTryCatch } from 'common/utils';
-import { appActions, EntityStatus, EntityStatusType } from 'app/appSlice';
+import { appActions, EntityStatus, EntityStatusType } from 'app/model/app-slice';
 import { ResultCode } from 'common/api/api';
 
 const slice = createSlice({

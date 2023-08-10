@@ -5,7 +5,7 @@ import { Login } from 'features/login/ui/Login';
 import { TodoLists } from 'features/todolists/TodoLists';
 import { MainPage } from 'features/mainPage/ui/MainPage';
 import { Layout } from 'app/layout/Layout';
-import { RequireAuth } from 'utils/RequireAuth';
+import { RequireAuth } from 'common/utils/RequireAuth';
 
 const App = () => {
     return (

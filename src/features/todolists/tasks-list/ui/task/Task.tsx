@@ -4,7 +4,7 @@ import s from 'features/todolists/tasks-list/ui/task/Task.module.scss';
 import { useAppDispatch } from 'common/hooks/hooks';
 import { tasksActions, tasksThunks, TaskType } from 'features/todolists/tasks-list/model/task-slice';
 import { TaskStatuses } from 'common/enums';
-import { EntityStatus } from 'app/appSlice';
+import { EntityStatus } from 'app/model/app-slice';
 import { AddedDate, Deadline, Priority, RemoveIcon } from 'common/components';
 
 export const Task: FC<TaskType> = ({

@@ -5,7 +5,7 @@ import {
     todoListsReducer,
     todoListsThunks,
 } from 'features/todolists/todolists-list/model/todo-lists-slice';
-import { EntityStatus } from 'app/appSlice';
+import { EntityStatus } from 'app/model/app-slice';
 
 describe('TodoLists reducer tests', () => {
     let todoListsState: TodoListsInitialStateType;

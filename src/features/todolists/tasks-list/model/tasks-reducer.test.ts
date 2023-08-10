@@ -2,7 +2,7 @@ import { TasksInitialStateType, tasksReducer, tasksThunks } from 'features/todol
 import { todoListsThunks } from 'features/todolists/todolists-list/model/todo-lists-slice';
 import { TaskPriorities, TaskStatuses } from 'common/enums';
 import { TodoListServerType } from 'features/todolists/todolists-list/api/todo-lists-api';
-import { EntityStatus } from 'app/appSlice';
+import { EntityStatus } from 'app/model/app-slice';
 
 describe('Tasks reducer tests', () => {
     let initialStateTasks: TasksInitialStateType;
