@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import s from 'features/todolists/todolists-list/ui/TodoLists.module.scss';
 import { AddItemForm } from 'common/components/AddItemForm/AddItemForm';
 import { useAppDispatch, useAppSelector } from 'common/hooks/hooks';
@@ -10,10 +10,6 @@ export const TodoListsList = () => {
     const dispatch = useAppDispatch();
     const todoLists = useAppSelector(getTodoListsSelector);
     const [draggableTodo, setDraggableTodo] = useState<null | TodoListType>(null);
-
-    useEffect(() => {
-        dispatch(todoListsThunks.getTodoLists());
-    }, []);
 
     const addTodoList = (title: string) => {
         return dispatch(todoListsThunks.createTodoList({ title })).unwrap();

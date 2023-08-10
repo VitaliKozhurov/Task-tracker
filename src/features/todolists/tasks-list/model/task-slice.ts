@@ -81,7 +81,7 @@ const slice = createSlice({
                     return (
                         action.type.endsWith('deleteTask/rejected') ||
                         action.type.endsWith('updateTask/fulfilled') ||
-                        action.type.endsWith('updateTask/fulfilled')
+                        action.type.endsWith('updateTask/rejected')
                     );
                 },
                 (state, action) => {

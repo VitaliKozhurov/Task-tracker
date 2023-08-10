@@ -5,6 +5,7 @@ import { ErrorNotification } from 'common/components/ErrorNotification/ErrorNoti
 import { useAppDispatch, useAppSelector } from 'common/hooks/hooks';
 import { getAppInitializedStatusSelector } from 'app/model/app-selectors';
 import { appThunks } from 'app/model/app-slice';
+import { InitializeComponent } from 'common/components/InitializeComponent/InitializeComponent';
 
 export const Layout = () => {
     const dispatch = useAppDispatch();
@@ -15,7 +16,7 @@ export const Layout = () => {
     }, []);
 
     if (!isInitialized) {
-        return <h1>Initializing...</h1>;
+        return <InitializeComponent />;
     }
     return (
         <div className="App">
