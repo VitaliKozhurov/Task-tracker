@@ -35,9 +35,7 @@ export const TodoList: FC<Props> = React.memo((props) => {
         dispatch(todoListsThunks.deleteTodoList({ todoListID: todo.id }));
     };
     const changeTodoListTitle = (newTitle: string) => {
-        dispatch(todoListsThunks.updateTodoListTitle({ todoListID: todo.id, title: { title: newTitle } })).finally(() =>
-            deactivateEditMode(),
-        );
+        dispatch(todoListsThunks.updateTodoListTitle({ todoListID: todo.id, title: { title: newTitle } }));
     };
 
     const todoClassName =
@@ -47,7 +45,13 @@ export const TodoList: FC<Props> = React.memo((props) => {
 
     return (
         <DragAndDrop {...props} classname={todoClassName}>
-            {editMode && <EditInput title={todo.title} changeTitle={changeTodoListTitle} />}
+            {editMode && (
+                <EditInput
+                    title={todo.title}
+                    changeTitle={changeTodoListTitle}
+                    deactivateEditMode={deactivateEditMode}
+                />
+            )}
             {!editMode && (
                 <>
                     <h2 className={s.title}>{todo.title}</h2>

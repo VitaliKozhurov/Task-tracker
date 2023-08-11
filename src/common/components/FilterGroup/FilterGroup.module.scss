@@ -1,0 +1,26 @@
+.filterGroup{
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  width: 100%;
+  padding: 0 20px;
+
+  .btn{
+    flex: 1 1 25%;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+    transition: background-color 0.3s;
+    &:hover{
+      background: rgb(60, 160, 65);
+    }
+  }
+  .active {
+    background: rgb(60, 160, 65);
+  }
+}

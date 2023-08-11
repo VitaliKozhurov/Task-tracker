@@ -76,7 +76,6 @@ const slice = createSlice({
                     );
                 },
                 (state, action) => {
-                    debugger;
                     const todoListID = action.meta.arg.todoListID;
                     const index = state.findIndex((todo) => todo.id === todoListID);
                     if (index !== -1) {
@@ -153,7 +152,7 @@ export const todoListsActions = slice.actions;
 export const todoListsThunks = { getTodoLists, createTodoList, deleteTodoList, updateTodoListTitle };
 
 // types
-type FilterValueType = (typeof FilterType)[keyof typeof FilterType];
+export type FilterValueType = (typeof FilterType)[keyof typeof FilterType];
 export type TodoListsInitialStateType = ReturnType<typeof slice.getInitialState>;
 export type TodoListType = TodoListServerType & { filter: FilterValueType } & { entityStatus: EntityStatusType } & {
     isActive: boolean;
