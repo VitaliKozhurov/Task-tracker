@@ -1,0 +1,44 @@
+.body {
+  padding: 20px;
+
+  .links{
+    display: flex;
+    justify-content: right;
+    padding-right: 40px;
+    .link {
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background-color: #ec0832;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #b00020;
+      }
+    }
+
+    .backButton{
+      margin-right: 20px;
+      padding: 10px 20px;
+      background: #c89336;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+  }
+  }
+
+
+  .image {
+    width: 45%;
+    margin: 0 auto;
+  }
+
+  .message{
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+  }
+}
