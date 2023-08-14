@@ -66,6 +66,7 @@ const slice = createSlice({
                 const index = state.findIndex((todo) => todo.id === action.payload.todoListID);
                 if (index !== -1) {
                     state[index].title = action.payload.title.title;
+                    state[index].entityStatus = EntityStatus.IDLE;
                 }
             })
             .addMatcher(
@@ -87,7 +88,6 @@ const slice = createSlice({
                 (action) => {
                     return (
                         action.type.endsWith('deleteTodoList/rejected') ||
-                        action.type.endsWith('changeTodoListTitle/fulfilled') ||
                         action.type.endsWith('changeTodoListTitle/rejected')
                     );
                 },

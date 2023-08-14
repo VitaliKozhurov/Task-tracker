@@ -56,6 +56,7 @@ const slice = createSlice({
                     tasksForCurrentTodoList[index] = {
                         ...tasksForCurrentTodoList[index],
                         ...action.payload.updateModel,
+                        entityStatus: EntityStatus.IDLE,
                     };
                 }
             })
@@ -69,6 +70,7 @@ const slice = createSlice({
                     return action.type.endsWith('deleteTask/pending') || action.type.endsWith('updateTask/pending');
                 },
                 (state, action) => {
+                    console.log(action);
                     const { todoListID, taskID } = action.meta.arg;
                     const index = state[todoListID].findIndex((task) => task.id === taskID);
                     if (index !== -1) {
@@ -78,11 +80,7 @@ const slice = createSlice({
             )
             .addMatcher(
                 (action) => {
-                    return (
-                        action.type.endsWith('deleteTask/rejected') ||
-                        action.type.endsWith('updateTask/fulfilled') ||
-                        action.type.endsWith('updateTask/rejected')
-                    );
+                    return action.type.endsWith('deleteTask/rejected') || action.type.endsWith('updateTask/rejected');
                 },
                 (state, action) => {
                     const { todoListID, taskID } = action.meta.arg;

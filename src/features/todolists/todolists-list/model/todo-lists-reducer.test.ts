@@ -81,7 +81,6 @@ describe('TodoLists reducer tests', () => {
     it('Should change todo entity status', () => {
         const action = { type: deleteTodoList.pending.type, meta: { arg: { todoListID: 'todo_2' } } };
         const newTodoListState = todoListsReducer(todoListsState, action);
-
         expect(newTodoListState[1].entityStatus).toBe(EntityStatus.LOADING);
         expect(newTodoListState[0].entityStatus).toBe(EntityStatus.IDLE);
     });

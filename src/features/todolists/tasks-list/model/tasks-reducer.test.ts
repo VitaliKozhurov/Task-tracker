@@ -1,5 +1,5 @@
 import { TasksInitialStateType, tasksReducer, tasksThunks } from 'features/todolists/tasks-list/model/task-slice';
-import { todoListsThunks } from 'features/todolists/todolists-list/model/todo-lists-slice';
+import { deleteTodoList, todoListsThunks } from 'features/todolists/todolists-list/model/todo-lists-slice';
 import { TaskPriorities, TaskStatuses } from 'common/enums';
 import { TodoListServerType } from 'features/todolists/todolists-list/api/todo-lists-api';
 import { EntityStatus } from 'app/model/app-slice';
@@ -90,7 +90,9 @@ describe('Tasks reducer tests', () => {
                 status: TaskStatuses.Completed,
             },
         };
+        // const action = { type: deleteTodoList.pending.type, meta: { arg: { todoListID: 'todo_2' } } };
         const action = { type: tasksThunks.updateTask.fulfilled.type, payload: updatedTaskData };
+
         const newTasksState = tasksReducer(initialStateTasks, action);
         expect(newTasksState[todoListID][0].title).toBe('new_task_1');
         expect(newTasksState[todoListID][0].deadline).toBe('new_deadline');
