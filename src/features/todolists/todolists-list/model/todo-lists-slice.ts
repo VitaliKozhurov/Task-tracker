@@ -71,10 +71,7 @@ const slice = createSlice({
             })
             .addMatcher(
                 (action) => {
-                    return (
-                        action.type.endsWith('deleteTodoList/pending') ||
-                        action.type.endsWith('changeTodoListTitle/pending')
-                    );
+                    return action.type.endsWith('deleteTodoList/pending');
                 },
                 (state, action) => {
                     const todoListID = action.meta.arg.todoListID;
@@ -86,10 +83,19 @@ const slice = createSlice({
             )
             .addMatcher(
                 (action) => {
-                    return (
-                        action.type.endsWith('deleteTodoList/rejected') ||
-                        action.type.endsWith('changeTodoListTitle/rejected')
-                    );
+                    return action.type.endsWith('changeTodoListTitle/pending');
+                },
+                (state, action) => {
+                    const todoListID = action.meta.arg.todoListID;
+                    const index = state.findIndex((todo) => todo.id === todoListID);
+                    if (index !== -1) {
+                        state[index].entityStatus = EntityStatus.LOADING;
+                    }
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('deleteTodoList/rejected');
                 },
                 (state, action) => {
                     const todoListID = action.meta.arg.todoListID;
@@ -97,6 +103,26 @@ const slice = createSlice({
                     if (index !== -1) {
                         state[index].entityStatus = EntityStatus.IDLE;
                     }
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('changeTodoListTitle/rejected');
+                },
+                (state, action) => {
+                    const todoListID = action.meta.arg.todoListID;
+                    const index = state.findIndex((todo) => todo.id === todoListID);
+                    if (index !== -1) {
+                        state[index].entityStatus = EntityStatus.IDLE;
+                    }
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('logout/fulfilled');
+                },
+                (state, action) => {
+                    return [];
                 },
             );
     },

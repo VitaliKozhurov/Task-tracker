@@ -67,7 +67,31 @@ const slice = createSlice({
             })
             .addMatcher(
                 (action) => {
-                    return action.type.endsWith('deleteTask/pending') || action.type.endsWith('updateTask/pending');
+                    return action.type.endsWith('deleteTask/pending');
+                },
+                (state, action) => {
+                    const { todoListID, taskID } = action.meta.arg;
+                    const index = state[todoListID].findIndex((task) => task.id === taskID);
+                    if (index !== -1) {
+                        state[todoListID][index].entityStatus = EntityStatus.LOADING;
+                    }
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('deleteTask/rejected');
+                },
+                (state, action) => {
+                    const { todoListID, taskID } = action.meta.arg;
+                    const index = state[todoListID].findIndex((task) => task.id === taskID);
+                    if (index !== -1) {
+                        state[todoListID][index].entityStatus = EntityStatus.IDLE;
+                    }
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('updateTask/pending');
                 },
                 (state, action) => {
                     console.log(action);
@@ -80,7 +104,7 @@ const slice = createSlice({
             )
             .addMatcher(
                 (action) => {
-                    return action.type.endsWith('deleteTask/rejected') || action.type.endsWith('updateTask/rejected');
+                    return action.type.endsWith('updateTask/rejected');
                 },
                 (state, action) => {
                     const { todoListID, taskID } = action.meta.arg;
@@ -88,6 +112,14 @@ const slice = createSlice({
                     if (index !== -1) {
                         state[todoListID][index].entityStatus = EntityStatus.IDLE;
                     }
+                },
+            )
+            .addMatcher(
+                (action) => {
+                    return action.type.endsWith('logout/fulfilled');
+                },
+                (state, action) => {
+                    return {};
                 },
             );
     },
