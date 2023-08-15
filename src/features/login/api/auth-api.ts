@@ -17,6 +17,10 @@ export class AuthApi {
     static logout() {
         return instance.delete<ResponseType>('auth/login');
     }
+
+    static getCaptcha() {
+        return instance.get<{ url: string }>('security/get-captcha-url');
+    }
 }
 type AuthResponseType = {
     id: number;
@@ -27,7 +31,7 @@ export type LoginRequestType = {
     email: string;
     password: string;
     rememberMe?: boolean;
-    captcha?: number;
+    captcha?: string;
 };
 type LoginResponseType = {
     userId: number;

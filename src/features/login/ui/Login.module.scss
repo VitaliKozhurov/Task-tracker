@@ -136,7 +136,26 @@
       }
 
       &:hover:disabled .arrow {
-      opacity: 0;
+        opacity: 0;
+      }
+    }
+
+    .captcha {
+      margin: 20px 0;
+      position: relative;
+
+      img {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 2px solid #0b506a;
+        margin-bottom: 20px;
+      }
+
+      .loginErrorMessage {
+        position: absolute;
+        left: 5px;
+        bottom: 9px;
+        color: #b00020;
       }
     }
   }

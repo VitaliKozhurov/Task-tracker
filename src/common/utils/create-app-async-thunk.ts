@@ -8,7 +8,7 @@ export const createAppAsyncThunk = createAsyncThunk.withTypes<{
     rejectValue: null | RejectValueType;
 }>();
 
-type RejectValueType = {
+export type RejectValueType = {
     data: ResponseType;
     showGlobalError: boolean;
 };
