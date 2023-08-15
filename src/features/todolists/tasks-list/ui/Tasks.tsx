@@ -8,6 +8,8 @@ import style from 'features/todolists/tasks-list/ui/Tasks.module.scss';
 import { AddItemForm, Button } from 'common/components';
 import { FilterGroup } from 'common/components/FilterGroup/FilterGroup';
 import { TaskStatuses } from 'common/enums';
+import { motion } from 'framer-motion';
+import { blockAnimation } from 'common/animation/animations';
 
 export const Tasks = () => {
     const tasks = useAppSelector(getTasksForActiveTodoList);
@@ -40,26 +42,28 @@ export const Tasks = () => {
     }
 
     return (
-        <div className={style.todoItem}>
-            <h2 className={style.todoTitle}>{`Tasks for ${activeTodoList.title}`}</h2>
-            <div className={style.taskCreator}>
-                {<AddItemForm title={'Tasks'} callback={addTask} />}
-                <div className={style.list}>
-                    {filteredTasks.map((task) => (
-                        <Task key={task.id} {...task} />
-                    ))}
-                </div>
-            </div>
-            {!!tasks.length && (
-                <>
-                    <div className={style.filterGroup}>
-                        <FilterGroup todoListID={activeTodoList.id} filterType={activeTodoList.filter} />
+        <motion.div initial={'hidden'} whileInView={'visible'} className={style.motionTasks}>
+            <motion.div variants={blockAnimation} className={style.todoItem}>
+                <h2 className={style.todoTitle}>{`Tasks for ${activeTodoList.title}`}</h2>
+                <div className={style.taskCreator}>
+                    {<AddItemForm title={'Tasks'} callback={addTask} />}
+                    <div className={style.list}>
+                        {filteredTasks.map((task) => (
+                            <Task key={task.id} {...task} />
+                        ))}
                     </div>
-                    <Button callback={deleteCompletedTasks} style={style.btn}>
-                        Clear all completed tasks
-                    </Button>
-                </>
-            )}
-        </div>
+                </div>
+                {!!tasks.length && (
+                    <>
+                        <div className={style.filterGroup}>
+                            <FilterGroup todoListID={activeTodoList.id} filterType={activeTodoList.filter} />
+                        </div>
+                        <Button callback={deleteCompletedTasks} style={style.btn}>
+                            Clear all completed tasks
+                        </Button>
+                    </>
+                )}
+            </motion.div>
+        </motion.div>
     );
 };

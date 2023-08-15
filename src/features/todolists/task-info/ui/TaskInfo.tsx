@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import s from 'features/todolists/task-info/ui/TaskInfo.module.scss';
 import { tasksThunks, TaskType } from 'features/todolists/tasks-list/model/task-slice';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -7,6 +6,9 @@ import { useAppDispatch } from 'common/hooks/hooks';
 import { PrioritySelector } from 'common/components/PrioritySelector/PrioritySelector';
 import { TaskPriorities } from 'common/enums';
 import { appActions, EntityStatus } from 'app/model/app-slice';
+import { motion } from 'framer-motion';
+import style from './TaskInfo.module.scss';
+import { blockAnimation } from 'common/animation/animations';
 
 export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
     const dispatch = useAppDispatch();
@@ -47,44 +49,46 @@ export const TaskInfo: FC<{ task: TaskType }> = ({ task }) => {
     };
 
     return (
-        <div className={s.taskInfo}>
-            <h2 className={s.taskInfoTitle}>{`Task info for ${task.title}`}</h2>
-            <div className={s.taskInfoBody}>
-                <div className={s.input}>
-                    <h3>Change task title</h3>
-                    <input className={s.title} type="text" value={taskState.title} onChange={onTitleChange} />
-                </div>
+        <motion.div initial={'hidden'} whileInView={'visible'} className={style.motionTaskInfo}>
+            <motion.div className={style.taskInfo} variants={blockAnimation}>
+                <h2 className={style.taskInfoTitle}>{`Task info for ${task.title}`}</h2>
+                <div className={style.taskInfoBody}>
+                    <div className={style.input}>
+                        <h3>Change task title</h3>
+                        <input className={style.title} type="text" value={taskState.title} onChange={onTitleChange} />
+                    </div>
 
-                <div className={s.text}>
-                    <h3>Change task description</h3>
-                    <textarea
-                        value={taskState.description === null ? '' : taskState.description}
-                        onChange={onChangeDescription}
-                    />
-                </div>
+                    <div className={style.text}>
+                        <h3>Change task description</h3>
+                        <textarea
+                            value={taskState.description === null ? '' : taskState.description}
+                            onChange={onChangeDescription}
+                        />
+                    </div>
 
-                <div className={s.date}>
-                    <h3>Change task deadline</h3>
-                    <DatePicker
-                        className={s.dateConfiguration}
-                        selected={taskState.deadline ? new Date(taskState.deadline) : new Date()}
-                        onChange={onDeadLineChange}
-                        dateFormat="dd-MM-yyyy"
-                    />
-                </div>
+                    <div className={style.date}>
+                        <h3>Change task deadline</h3>
+                        <DatePicker
+                            className={style.dateConfiguration}
+                            selected={taskState.deadline ? new Date(taskState.deadline) : new Date()}
+                            onChange={onDeadLineChange}
+                            dateFormat="dd-MM-yyyy"
+                        />
+                    </div>
 
-                <div>
-                    <h3>Change task priority</h3>
-                    <PrioritySelector currentPriority={taskState.priority} callback={onChangePriority} />
+                    <div>
+                        <h3>Change task priority</h3>
+                        <PrioritySelector currentPriority={taskState.priority} callback={onChangePriority} />
+                    </div>
                 </div>
-            </div>
-            <button
-                className={s.btn}
-                onClick={updateTaskProperties}
-                disabled={task.entityStatus === EntityStatus.LOADING}
-            >
-                Save task info
-            </button>
-        </div>
+                <button
+                    className={style.btn}
+                    onClick={updateTaskProperties}
+                    disabled={task.entityStatus === EntityStatus.LOADING}
+                >
+                    Save task info
+                </button>
+            </motion.div>
+        </motion.div>
     );
 };

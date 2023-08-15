@@ -1,10 +1,14 @@
-.todoItem {
+.motionTasks {
   flex: 0 0 550px;
-  flex-direction: column;
+}
+
+.todoItem {
   display: flex;
-  padding: 20px 0;
+  flex-direction: column;
+  height: 100%;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
+  padding: 20px 0;
   margin: 0 30px;
 
   .todoTitle {

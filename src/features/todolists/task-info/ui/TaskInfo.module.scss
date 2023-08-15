@@ -1,9 +1,13 @@
-.taskInfo {
+.motionTaskInfo{
   flex: 0 0 600px;
+}
+
+.taskInfo {
   padding: 20px 0;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   margin: 0 30px;
+  height: 100%;
 
   .taskInfoTitle {
     font-size: 24px;
