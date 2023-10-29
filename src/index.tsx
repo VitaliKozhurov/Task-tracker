@@ -10,7 +10,7 @@ import { store } from 'app/model/store';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename='/todolists'>
             <App />
         </BrowserRouter>
     </Provider>,
